@@ -10,6 +10,7 @@ Will work on speeding up later.
 import random
 import plotly.graph_objects as go
 import plotly.express as px
+from search.former.clusters import get_unique_clusters, get_neighbors
 
 
 class Former:
@@ -31,6 +32,14 @@ class Former:
     @property
     def grid(self):
         return self._grid
+    
+    @property
+    def rows(self):
+        return self._rows
+    
+    @property
+    def cols(self):
+        return self._cols
 
     # Generate a random grid of shapes
     def generate_grid(self)-> list[list[int]]:
@@ -79,47 +88,9 @@ class Former:
         )
         fig.show()
 
-    # Check if coordinates are within the grid
-    def is_in_bounds(self, x, y):
-        return 0 <= x < self._rows and 0 <= y < self._cols
-
-    # Get all neighboring shapes of the same type
-    def get_neighbors(self, x, y) -> list[tuple[int, int]]:
-        target_shape = self._grid[x][y]
-        visited = [[False for _ in range(self._cols)] for _ in range(self._rows)]
-        cluster = []
-
-        def dfs(x, y):
-            if not self.is_in_bounds(x, y) or visited[x][y] or self._grid[x][y] != target_shape:
-                return
-            visited[x][y] = True
-            cluster.append((x, y))
-            directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Up, Down, Left, Right
-            for dx, dy in directions:
-                dfs(x + dx, y + dy)
-
-        dfs(x, y)
-        return cluster
-
-    # Get all unique clusters of the same shape
-    def get_unique_clusters(self):
-        visited = [[False for _ in range(self._cols)] for _ in range(self._rows)]
-        clusters = []
-
-        for x in range(self._rows):
-            for y in range(self._cols):
-                if not visited[x][y] and self._grid[x][y] != 0:
-                    cluster = self.get_neighbors(x, y)
-                    for cx, cy in cluster:
-                        visited[cx][cy] = True
-                    if cluster:
-                        clusters.append(cluster)
-
-        return clusters
-
     # Remove connected shapes
     def remove_shapes(self, x, y):
-        cluster = self.get_neighbors(x, y)
+        cluster = get_neighbors(self.grid, x, y)
         for cx, cy in cluster:
             self._grid[cx][cy] = 0
 
