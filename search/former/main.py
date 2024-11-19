@@ -12,7 +12,7 @@ from typing import Tuple, List
 # Function to suggest a cluster
 def suggest(args: Tuple[Former, scoring.ScoreBase]) -> Tuple[int, float]:
     former, scorer = args
-    cluster_id, score = bot.suggest_cluster(former, scorer, depth=5, width=7)
+    cluster_id, score = bot.suggest_cluster(former, scorer, depth=6, width=7)
     return cluster_id, score
 
 # Main game function
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     # SHAPES = [1, 2, 3, 4]  # Use numbers to represent different shapes
     # former = Former(rows=ROWS, cols=COLS, shapes=SHAPES)
 
-    board = boards.load_board(boards.b_131124)
+    board = boards.load_board(boards.b_191124)
     # scorer = scoring.ScoreGridByNumRemoved()
     scorer = scoring.ScoreGridByNumClusters()
 

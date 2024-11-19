@@ -37,6 +37,19 @@ b_131124 = """
 """
 
 
+b_191124 = """
+3341324
+1221334
+2323221
+3421132
+1434142
+2323113
+3333321
+1232441
+4132142
+"""
+
+
 def load_board(board_str: str) -> list[list[int]]:
     return [[int(cell) for cell in row.strip()] for row in board_str.strip().split("\n")]
 
