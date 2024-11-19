@@ -1,3 +1,6 @@
+import numpy as np
+
+
 b_111124 = """
 1233321
 3243224
@@ -50,8 +53,8 @@ b_191124 = """
 """
 
 
-def load_board(board_str: str) -> list[list[int]]:
-    return [[int(cell) for cell in row.strip()] for row in board_str.strip().split("\n")]
+def load_board(board_str: str) -> np.ndarray:
+    return np.array([[int(cell) for cell in row.strip()] for row in board_str.strip().split("\n")])
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ from typing import Tuple, List
 # Function to suggest a cluster
 def suggest(args: Tuple[Former, scoring.ScoreBase]) -> Tuple[int, float]:
     former, scorer = args
-    cluster_id, score = bot.suggest_cluster(former, scorer, depth=6, width=7)
+    cluster_id, score = bot.suggest_cluster(former, scorer, depth=4, width=7)
     return cluster_id, score
 
 # Main game function
@@ -58,7 +58,7 @@ def play_game(former: Former, scorer: scoring.ScoreBase) -> None:
             if not is_in_bounds(x, y, rows=former.rows, cols=former.cols):
                 print("🚫 Invalid coordinates. Try again.")
                 continue
-            if former.grid[x][y] == 0:
+            if former.grid[x, y] == 0:
                 print("🚫 Selected cell is empty. Try again.")
                 continue
 

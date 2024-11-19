@@ -3,11 +3,9 @@ This is a grid-based puzzle game where the player interacts with a grid filled w
 The objective is to remove clusters of connected shapes by selecting a shape on the grid.
 When a shape is removed, the shapes above it fall down to fill the empty space, similar to gravity.
 The player continues to remove shapes until all shapes are removed.
-
-Will work on speeding up later.
 """
 
-import random
+import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 from search.former.clusters import get_unique_clusters, get_neighbors
@@ -18,32 +16,31 @@ class Former:
         self._rows = rows
         self._cols = cols
         self._shapes = shapes
-        self._grid: list[list[int]] = self.generate_grid()
+        self._grid: np.ndarray = self.generate_grid()
 
     @classmethod
-    def from_board(cls, board: list[list[int]]) -> 'Former':
-        rows = len(board)
-        cols = len(board[0]) if rows > 0 else 0
-        shapes = list({cell for row in board for cell in row})
+    def from_board(cls, board: np.ndarray) -> 'Former':
+        rows, cols = board.shape
+        shapes = list(np.unique(board))
         instance = cls(rows, cols, shapes)
         instance._grid = board
         return instance
 
     @property
-    def grid(self):
+    def grid(self) -> np.ndarray:
         return self._grid
     
     @property
-    def rows(self):
+    def rows(self) -> int:
         return self._rows
     
     @property
-    def cols(self):
+    def cols(self) -> int:
         return self._cols
 
     # Generate a random grid of shapes
-    def generate_grid(self)-> list[list[int]]:
-        return [[random.choice(self._shapes) for _ in range(self._cols)] for _ in range(self._rows)]
+    def generate_grid(self)-> np.ndarray:
+        return np.random.choice(self._shapes, size=(self._rows, self._cols))
 
     # Display the grid
     def print_grid(self, clusters: list[list[tuple[int, int]]]):
@@ -60,7 +57,7 @@ class Former:
             for x, y in cluster:
                 text_grid[x][y] = f"{cluster_id} ({x}, {y})"  # Display cluster ID
 
-        z = [[None if self._grid[row][col] == 0 else self._grid[row][col] for col in range(self._cols)] for row in range(self._rows)]
+        z = [[None if self._grid[row, col] == 0 else self._grid[row, col] for col in range(self._cols)] for row in range(self._rows)]
 
         cols_minus_shapes = self._cols - len(self._shapes)
         assert cols_minus_shapes >= 0
@@ -92,17 +89,15 @@ class Former:
     def remove_shapes(self, x, y):
         cluster = get_neighbors(self.grid, x, y)
         for cx, cy in cluster:
-            self._grid[cx][cy] = 0
+            self._grid[cx, cy] = 0
 
     # Shift shapes down after removal
     def apply_gravity(self):
         for col in range(self._cols):
-            stack = [self._grid[row][col] for row in range(self._rows) if self._grid[row][col] != 0]
-            for row in range(self._rows - len(stack)):
-                self._grid[row][col] = 0
-            for row in range(len(stack)):
-                self._grid[self._rows - len(stack) + row][col] = stack[row]
+            stack = self._grid[:, col][self._grid[:, col] != 0]
+            self._grid[:, col] = 0
+            self._grid[self._rows - len(stack):, col] = stack
 
     # Check if the grid is empty
-    def is_grid_empty(self):
-        return all(cell == 0 for row in self._grid for cell in row)
+    def is_grid_empty(self) -> bool:
+        return np.all(self._grid == 0)
