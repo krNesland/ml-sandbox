@@ -8,7 +8,7 @@ The player continues to remove shapes until all shapes are removed.
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
-from search.former.clusters import get_unique_clusters, get_neighbors
+from search.former.clusters import get_neighbors
 
 
 class Former:
@@ -43,18 +43,19 @@ class Former:
         return np.random.choice(self._shapes, size=(self._rows, self._cols))
 
     # Display the grid
-    def print_grid(self, clusters: list[list[tuple[int, int]]]):
+    def print_grid(self):
         for row in self._grid:
             print(" ".join(str(cell) if cell != 0 else "." for cell in row))
 
     # Plot the grid using plotly with cluster highlighting
-    def plot_grid(self, clusters: list[list[tuple[int, int]]]):
+    def plot_grid(self, cluster_masks: list[np.ndarray]):
         color_scale = px.colors.qualitative.Plotly
 
         # Create a text grid based on clusters
         text_grid = [['' for _ in range(self._cols)] for _ in range(self._rows)]
-        for cluster_id, cluster in enumerate(clusters):
-            for x, y in cluster:
+        for cluster_id, cluster_mask in enumerate(cluster_masks):
+            coordinates = np.argwhere(cluster_mask)
+            for x, y in zip(coordinates[:, 0], coordinates[:, 1]):
                 text_grid[x][y] = f"{cluster_id} ({x}, {y})"  # Display cluster ID
 
         z = [[None if self._grid[row, col] == 0 else self._grid[row, col] for col in range(self._cols)] for row in range(self._rows)]
@@ -86,10 +87,8 @@ class Former:
         fig.show()
 
     # Remove connected shapes
-    def remove_shapes(self, x, y):
-        cluster = get_neighbors(self.grid, x, y)
-        for cx, cy in cluster:
-            self._grid[cx, cy] = 0
+    def remove_shapes(self, cluster_mask: np.ndarray):
+        self._grid[cluster_mask] = 0
 
     # Shift shapes down after removal
     def apply_gravity(self):

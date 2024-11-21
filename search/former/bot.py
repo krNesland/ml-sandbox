@@ -6,24 +6,26 @@ import search.former.scoring as scoring
 from search.former.clusters import get_unique_clusters
 
 
-def suggest_cluster(former: Former, scorer: scoring.ScoreBase, depth: int, width: int, radnomness: float = 0.0) -> tuple[int, float]:
+def suggest_cluster(former: Former, scorer: scoring.ScoreBase, depth: int, width: int) -> tuple[int, float]:
     if (depth == 0) or former.is_grid_empty():
-        return -1, scorer(former.grid)
+        cluster_masks = get_unique_clusters(former.grid)
+        return -1, scorer(former.grid, cluster_masks)
 
-    clusters = get_unique_clusters(former.grid)
+    cluster_masks = get_unique_clusters(former.grid)
 
     cluster_id_to_immediate_score: list[tuple[int, float]] = []
 
     # Using the immediate score to narrow down the search space in a greedy manner
-    for cluster_id, cluster in enumerate(clusters):
+    for cluster_id, cluster_mask in enumerate(cluster_masks):
         former_copy = deepcopy(former)
-        former_copy.remove_shapes(x=cluster[0][0], y=cluster[0][1])
+        former_copy.remove_shapes(cluster_mask)
         former_copy.apply_gravity()  # Not always needed. Will depend on the score function
-        cluster_id_to_immediate_score.append((cluster_id, scorer(former_copy.grid)))
+        cluster_masks_post = get_unique_clusters(former_copy.grid)
+        cluster_id_to_immediate_score.append((cluster_id, scorer(former_copy.grid, cluster_masks_post)))
 
     # Sort the clusters by score in descending order. Adding some noise to be less greedy about it
     cluster_id_to_immediate_score = sorted(
-        [(cluster_id, score + random.random() * radnomness) for cluster_id, score in cluster_id_to_immediate_score],
+        [(cluster_id, score) for cluster_id, score in cluster_id_to_immediate_score],
         key=lambda x: x[1],
         reverse=True,
     )
@@ -32,7 +34,7 @@ def suggest_cluster(former: Former, scorer: scoring.ScoreBase, depth: int, width
 
     for cluster_id, _ in cluster_id_to_immediate_score[:width]:
         former_copy = deepcopy(former)
-        former_copy.remove_shapes(x=clusters[cluster_id][0][0], y=clusters[cluster_id][0][1])
+        former_copy.remove_shapes(cluster_masks[cluster_id])
         former_copy.apply_gravity()
         cluster_id_to_score.append((cluster_id, suggest_cluster(former_copy, scorer, depth - 1, width)[1]))
 

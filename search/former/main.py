@@ -2,9 +2,10 @@ from search.former.game import Former
 import search.former.scoring as scoring
 import search.former.bot as bot
 import search.former.boards as boards
+import numpy as np
 import time
 from multiprocessing import Pool
-from search.former.clusters import get_unique_clusters, is_in_bounds
+from search.former.clusters import get_unique_clusters, is_in_bounds, get_neighbors
 
 from typing import Tuple, List
 
@@ -12,16 +13,16 @@ from typing import Tuple, List
 # Function to suggest a cluster
 def suggest(args: Tuple[Former, scoring.ScoreBase]) -> Tuple[int, float]:
     former, scorer = args
-    cluster_id, score = bot.suggest_cluster(former, scorer, depth=4, width=7)
+    cluster_id, score = bot.suggest_cluster(former, scorer, depth=5, width=7)
     return cluster_id, score
 
 # Main game function
-def play_game(former: Former, scorer: scoring.ScoreBase) -> None:
-    clusters = get_unique_clusters(former.grid)
+def play_game(former: Former, scorer: scoring.ScoreBase, auto_play: bool = False) -> None:
+    cluster_masks = get_unique_clusters(former.grid)
     print("Initial Grid:")
-    former.print_grid(clusters=clusters)
-    print(f"Grid score: {scorer(former.grid):.2f}")
-    former.plot_grid(clusters=clusters)
+    former.print_grid()
+    print(f"Grid score: {scorer(former.grid, cluster_masks):.2f}")
+    former.plot_grid(cluster_masks=cluster_masks)
 
     turn_num = 1
 
@@ -36,7 +37,7 @@ def play_game(former: Former, scorer: scoring.ScoreBase) -> None:
 
             print("Getting move suggestions...")
 
-            # Commented out now for simplicity
+            # TODO: Commented out now for simplicity. Should rewrite to first do one call of suggest and  then do the rest in parallel
             # # Use Pool to parallelize the suggestion process
             # with Pool(processes=8) as pool:  # Adjust the number of processes based on your CPU cores
             #     results: List[Tuple[int, float]] = pool.map(suggest, [(former, scorer)] * 8)
@@ -50,9 +51,14 @@ def play_game(former: Former, scorer: scoring.ScoreBase) -> None:
             for cluster_id, score in results:
                 print(f"Cluster: {cluster_id} | Score: {score:.2f}")
 
-            response = input("Enter the row and column to click (e.g., 3 4), or q to quit: ")
-            if response == "q":
-                break
+            if not auto_play:
+                response = input("Enter the row and column to click (e.g., 3 4), or q to quit: ")
+                if response == "q":
+                    break
+            else:
+                cluster_masks = get_unique_clusters(former.grid)
+                selected_cluster = cluster_masks[results[0][0]]
+                response = f"{np.where(selected_cluster)[0][0]} {np.where(selected_cluster)[1][0]}"
 
             x, y = map(int, response.split())
             if not is_in_bounds(x, y, rows=former.rows, cols=former.cols):
@@ -63,15 +69,16 @@ def play_game(former: Former, scorer: scoring.ScoreBase) -> None:
                 continue
 
             # Remove shapes and apply gravity
-            former.remove_shapes(x, y)
+            cluster_mask = get_neighbors(former.grid, x, y)
+            former.remove_shapes(cluster_mask)
             former.apply_gravity()
 
             # Display updated grid
-            clusters = get_unique_clusters(former.grid)
+            cluster_masks = get_unique_clusters(former.grid)
             print("Updated Grid:")
-            former.print_grid(clusters=clusters)
-            print(f"⭐️ Grid score: {scorer(former.grid):.2f}")
-            former.plot_grid(clusters=clusters)
+            former.print_grid()
+            print(f"⭐️ Grid score: {scorer(former.grid, cluster_masks):.2f}")
+            former.plot_grid(cluster_masks=cluster_masks)
 
             turn_num += 1
         
@@ -91,4 +98,4 @@ if __name__ == "__main__":
 
     former = Former.from_board(board)
 
-    play_game(former, scorer)
+    play_game(former, scorer, auto_play=True)
