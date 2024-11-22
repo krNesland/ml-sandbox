@@ -6,8 +6,9 @@ The player continues to remove shapes until all shapes are removed.
 """
 
 import numpy as np
-import plotly.graph_objects as go
 import plotly.express as px
+import plotly.graph_objects as go
+
 from search.former.clusters import get_neighbors
 
 
@@ -19,7 +20,7 @@ class Former:
         self._grid: np.ndarray = self.generate_grid()
 
     @classmethod
-    def from_board(cls, board: np.ndarray) -> 'Former':
+    def from_board(cls, board: np.ndarray) -> "Former":
         rows, cols = board.shape
         shapes = list(np.unique(board))
         instance = cls(rows, cols, shapes)
@@ -29,17 +30,17 @@ class Former:
     @property
     def grid(self) -> np.ndarray:
         return self._grid
-    
+
     @property
     def rows(self) -> int:
         return self._rows
-    
+
     @property
     def cols(self) -> int:
         return self._cols
 
     # Generate a random grid of shapes
-    def generate_grid(self)-> np.ndarray:
+    def generate_grid(self) -> np.ndarray:
         return np.random.choice(self._shapes, size=(self._rows, self._cols))
 
     # Display the grid
@@ -52,37 +53,59 @@ class Former:
         color_scale = px.colors.qualitative.Plotly
 
         # Create a text grid based on clusters
-        text_grid = [['' for _ in range(self._cols)] for _ in range(self._rows)]
+        text_grid = [["" for _ in range(self._cols)] for _ in range(self._rows)]
         for cluster_id, cluster_mask in enumerate(cluster_masks):
             coordinates = np.argwhere(cluster_mask)
             for x, y in zip(coordinates[:, 0], coordinates[:, 1]):
                 text_grid[x][y] = f"{cluster_id} ({x}, {y})"  # Display cluster ID
 
-        z = [[None if self._grid[row, col] == 0 else self._grid[row, col] for col in range(self._cols)] for row in range(self._rows)]
+        z = [
+            [
+                None if self._grid[row, col] == 0 else self._grid[row, col]
+                for col in range(self._cols)
+            ]
+            for row in range(self._rows)
+        ]
 
         cols_minus_shapes = self._cols - len(self._shapes)
         assert cols_minus_shapes >= 0
-        
+
         z.append([None] * self._cols)  # Add an empty row at the bottom
-        z.append(self._shapes + [None] * cols_minus_shapes)  # Trick to always have the colors
+        z.append(
+            self._shapes + [None] * cols_minus_shapes
+        )  # Trick to always have the colors
 
-        text_grid.append([''] * self._cols)
-        text_grid.append([f"{shape}" for shape in self._shapes] + [''] * cols_minus_shapes)
-
+        text_grid.append([""] * self._cols)
+        text_grid.append(
+            [f"{shape}" for shape in self._shapes] + [""] * cols_minus_shapes
+        )
 
         # Plot using plotly
-        fig = go.Figure(data=go.Heatmap(
-            z=z,
-            colorscale=color_scale,
-            showscale=False,
-            text=text_grid,
-            hoverinfo='text',
-            texttemplate="%{text}"  # Show text on the grid
-        ))
+        fig = go.Figure(
+            data=go.Heatmap(
+                z=z,
+                colorscale=color_scale,
+                showscale=False,
+                text=text_grid,
+                hoverinfo="text",
+                texttemplate="%{text}",  # Show text on the grid
+            )
+        )
         fig.update_layout(
-            title='Grid of Shapes with Clusters',
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, scaleanchor="y", scaleratio=1),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, autorange='reversed')
+            title="Grid of Shapes with Clusters",
+            xaxis=dict(
+                showgrid=False,
+                zeroline=False,
+                showticklabels=False,
+                scaleanchor="y",
+                scaleratio=1,
+            ),
+            yaxis=dict(
+                showgrid=False,
+                zeroline=False,
+                showticklabels=False,
+                autorange="reversed",
+            ),
         )
         fig.show()
 
@@ -95,7 +118,7 @@ class Former:
         for col in range(self._cols):
             stack = self._grid[:, col][self._grid[:, col] != 0]
             self._grid[:, col] = 0
-            self._grid[self._rows - len(stack):, col] = stack
+            self._grid[self._rows - len(stack) :, col] = stack
 
     # Check if the grid is empty
     def is_grid_empty(self) -> bool:

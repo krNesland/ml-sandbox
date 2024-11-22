@@ -1,6 +1,5 @@
 import numpy as np
 
-
 b_111124 = """
 1233321
 3243224
@@ -53,8 +52,24 @@ b_191124 = """
 """
 
 
+b_221124 = """
+4243131
+1121234
+2121131
+2422321
+2414124
+4412144
+4142214
+2122243
+1132313
+
+"""
+
+
 def load_board(board_str: str) -> np.ndarray:
-    return np.array([[int(cell) for cell in row.strip()] for row in board_str.strip().split("\n")])
+    return np.array(
+        [[int(cell) for cell in row.strip()] for row in board_str.strip().split("\n")]
+    )
 
 
 if __name__ == "__main__":

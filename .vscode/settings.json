@@ -1,0 +1,15 @@
+{
+    "ruff.organizeImports": true,
+
+    "[python]": {
+        "diffEditor.ignoreTrimWhitespace": false,
+        // ext install charliermarsh.ruff
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+        // format on type doesn't work well with whole file formatters
+        "editor.formatOnType": false,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "always"
+        }
+    },
+}
