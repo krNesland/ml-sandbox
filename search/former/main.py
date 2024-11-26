@@ -99,7 +99,7 @@ if __name__ == "__main__":
     # SHAPES = [1, 2, 3, 4]  # Use numbers to represent different shapes
     # former = Former(rows=ROWS, cols=COLS, shapes=SHAPES)
 
-    board = boards.load_board(boards.b_221124)
+    board = boards.load_board(boards.b_261124)
     # scorer = scoring.ScoreGridByNumRemoved()
     scorer = scoring.ScoreGridByNumClusters()
 
