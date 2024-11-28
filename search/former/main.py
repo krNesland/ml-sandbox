@@ -4,9 +4,9 @@ from typing import List, Tuple
 
 import numpy as np
 
+import search.former.aiagent.scoring as scoring
+import search.former.aiagent.utils as utils
 import search.former.boards as boards
-import search.former.bot as bot
-import search.former.scoring as scoring
 from search.former.clusters import get_neighbors, get_unique_clusters, is_in_bounds
 from search.former.game import Former
 
@@ -14,7 +14,7 @@ from search.former.game import Former
 # Function to suggest a cluster
 def suggest(args: Tuple[Former, scoring.ScoreBase]) -> Tuple[int, float]:
     former, scorer = args
-    cluster_id, score = bot.suggest_cluster(former, scorer, depth=4, width=10)
+    cluster_id, score = utils.suggest_cluster(former, scorer, depth=4, width=10)
     return cluster_id, score
 
 

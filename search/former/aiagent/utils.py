@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-import search.former.scoring as scoring
+import search.former.aiagent.scoring as scoring
 from search.former.clusters import get_unique_clusters
 from search.former.game import Former
 

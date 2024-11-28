@@ -9,8 +9,6 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
-from search.former.clusters import get_neighbors
-
 
 class Former:
     def __init__(self, rows: int, cols: int, shapes: list[int]):
