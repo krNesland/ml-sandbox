@@ -14,19 +14,23 @@ from search.former.game import Former
 # Function to suggest a cluster
 def suggest(args: Tuple[Former, scoring.ScoreBase]) -> Tuple[int, float]:
     former, scorer = args
-    cluster_id, score = bot.suggest_cluster(former, scorer, depth=5, width=7)
+    cluster_id, score = bot.suggest_cluster(former, scorer, depth=4, width=10)
     return cluster_id, score
 
 
 # Main game function
 def play_game(
-    former: Former, scorer: scoring.ScoreBase, auto_play: bool = False
+    former: Former,
+    scorer: scoring.ScoreBase,
+    auto_play: bool = False,
+    plot_grid: bool = True,
 ) -> None:
     cluster_masks = get_unique_clusters(former.grid)
     print("Initial Grid:")
     former.print_grid()
     print(f"Grid score: {scorer(former.grid, cluster_masks):.2f}")
-    former.plot_grid(cluster_masks=cluster_masks)
+    if plot_grid:
+        former.plot_grid(cluster_masks=cluster_masks)
 
     turn_num = 1
 
@@ -85,7 +89,8 @@ def play_game(
             print("Updated Grid:")
             former.print_grid()
             print(f"⭐️ Grid score: {scorer(former.grid, cluster_masks):.2f}")
-            former.plot_grid(cluster_masks=cluster_masks)
+            if plot_grid:
+                former.plot_grid(cluster_masks=cluster_masks)
 
             turn_num += 1
 
@@ -101,8 +106,8 @@ if __name__ == "__main__":
 
     board = boards.load_board(boards.b_261124)
     # scorer = scoring.ScoreGridByNumRemoved()
-    scorer = scoring.ScoreGridByNumClusters()
+    scorer = scoring.ScoreGridByShapeAdjecency()
 
     former = Former.from_board(board)
 
-    play_game(former, scorer, auto_play=True)
+    play_game(former, scorer, auto_play=True, plot_grid=False)
