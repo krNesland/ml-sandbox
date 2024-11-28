@@ -30,12 +30,20 @@ class Former:
         return self._grid
 
     @property
+    def flattened_grid(self) -> np.ndarray:
+        return self._grid.flatten()
+
+    @property
     def rows(self) -> int:
         return self._rows
 
     @property
     def cols(self) -> int:
         return self._cols
+
+    @property
+    def n_cells(self) -> int:
+        return self._rows * self._cols
 
     # Generate a random grid of shapes
     def generate_grid(self) -> np.ndarray:

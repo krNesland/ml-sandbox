@@ -2,7 +2,7 @@ from copy import deepcopy
 
 import search.former.aiagent.scoring as scoring
 from search.former.clusters import get_unique_clusters
-from search.former.game import Former
+from search.former.former import Former
 
 
 def suggest_cluster(

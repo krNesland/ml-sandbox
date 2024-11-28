@@ -8,7 +8,7 @@ import search.former.aiagent.scoring as scoring
 import search.former.aiagent.utils as utils
 import search.former.boards as boards
 from search.former.clusters import get_neighbors, get_unique_clusters, is_in_bounds
-from search.former.game import Former
+from search.former.former import Former
 
 
 # Function to suggest a cluster
@@ -37,7 +37,9 @@ def play_game(
     while True:
         print("\n\n")
         if former.is_grid_empty():
-            print("🔥 Congratulations! All shapes have been removed.")
+            print(
+                f"🔥 Congratulations! All shapes have been removed in {turn_num} turns."
+            )
             break
 
         try:
