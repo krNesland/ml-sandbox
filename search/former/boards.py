@@ -78,6 +78,19 @@ b_261124 = """
 """
 
 
+b_291124 = """
+4311244
+2224434
+1341332
+4414414
+2233112
+1332424
+1433211
+4121411
+3111233
+"""
+
+
 def load_board(board_str: str) -> np.ndarray:
     return np.array(
         [[int(cell) for cell in row.strip()] for row in board_str.strip().split("\n")]

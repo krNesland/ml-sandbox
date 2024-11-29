@@ -69,6 +69,19 @@ class ScoreGridByShapeAdjecency:
         return score
 
 
+class ScoreGridByEnsemble:
+    def __call__(self, grid: np.ndarray, cluster_masks: list[np.ndarray]) -> float:
+        # Trying to scale both to something between 0 and 1
+        num_removed_score = ScoreGridByNumRemoved()(grid, cluster_masks)
+        num_clusters_score = ScoreGridByNumClusters()(grid, cluster_masks)
+        adjacency_score = (ScoreGridByShapeAdjecency()(grid, cluster_masks) + 21) / 21
+
+        # Weighting the adjacency score a little lower
+        return (
+            num_removed_score * 0.2 + adjacency_score * 0.4 + num_clusters_score * 0.4
+        )
+
+
 class ScoreGridByRL:
     """
     Idea here is to have some ML model trained by RL to give a proxy of the 'position'

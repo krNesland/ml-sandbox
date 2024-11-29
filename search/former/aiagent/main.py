@@ -38,7 +38,7 @@ def play_game(
         print("\n\n")
         if former.is_grid_empty():
             print(
-                f"🔥 Congratulations! All shapes have been removed in {turn_num} turns."
+                f"🔥 Congratulations! All shapes have been removed in {turn_num - 1} turns."
             )
             break
 
@@ -106,9 +106,9 @@ if __name__ == "__main__":
     # SHAPES = [1, 2, 3, 4]  # Use numbers to represent different shapes
     # former = Former(rows=ROWS, cols=COLS, shapes=SHAPES)
 
-    board = boards.load_board(boards.b_261124)
+    board = boards.load_board(boards.b_291124)
     # scorer = scoring.ScoreGridByNumRemoved()
-    scorer = scoring.ScoreGridByShapeAdjecency()
+    scorer = scoring.ScoreGridByEnsemble()
 
     former = Former.from_board(board)
 
