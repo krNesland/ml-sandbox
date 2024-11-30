@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from search.former.rlagent.v0.network import DQN
+from search.former.rlexp.v0.network import DQN
 
 
 class DQNAgent:
@@ -18,8 +18,8 @@ class DQNAgent:
         self._criterion = nn.MSELoss()
         self.epsilon = 0.9  # Exploration rate
         self.epsilon_decay = 0.02
-        self.epsilon_min = 0.01
-        self._gamma = 0.9  # Discount factor
+        self.epsilon_min = 0.1
+        self._gamma = 1.0  # Discount factor
 
     @property
     def model(self) -> nn.Module:

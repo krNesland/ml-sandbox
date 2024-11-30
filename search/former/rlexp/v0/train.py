@@ -1,11 +1,3 @@
-"""
-Created on 2024-11-30
-
-Author: Kristoffer Nesland
-
-Description: Train on a single board
-"""
-
 import random
 from copy import deepcopy
 
@@ -14,9 +6,10 @@ import torch
 
 from search.former.clusters import get_neighbors
 from search.former.former import Former
-from search.former.rlagent.logger import QValuesLogger, TurnsLogger
-from search.former.rlagent.test_boards import ALL_TEST_BOARDS
-from search.former.rlagent.v0.agent import DQNAgent
+from search.former.rlexp.logger import QValuesLogger, TurnsLogger
+from search.former.rlexp.reward import calc_reward
+from search.former.rlexp.test_boards import ALL_TEST_BOARDS
+from search.former.rlexp.v0.agent import DQNAgent
 
 # Set random seeds for reproducibility
 random_seed = 42
@@ -25,18 +18,21 @@ np.random.seed(random_seed)
 
 
 if __name__ == "__main__":
-    board = ALL_TEST_BOARDS[2]
+    rows = 9
+    cols = 7
+    shapes = [1, 2, 3, 4]  # Use numbers to represent different shapes
 
-    org_former = Former.from_board(board)
+    org_former = Former(rows=rows, cols=cols, shapes=shapes)
 
     agent = DQNAgent(
         state_size=org_former.n_cells,
         action_size=org_former.n_cells,
     )
     logger = TurnsLogger()
-    board_0_logger = QValuesLogger(board)
+    board_0_logger = QValuesLogger(board=ALL_TEST_BOARDS[0])
 
     episodes = 1_000
+    new_board_every = 1
 
     with torch.no_grad():
         state = torch.FloatTensor(board_0_logger.board.flatten()).unsqueeze(0)
@@ -44,6 +40,10 @@ if __name__ == "__main__":
         board_0_logger.log(q_values=q_values, episode=0)
 
     for e in range(episodes):
+        if e % new_board_every == 0:
+            # Initializing a new board
+            org_former = Former(rows=rows, cols=cols, shapes=shapes)
+
         former = deepcopy(org_former)
 
         done: bool = False
@@ -59,13 +59,8 @@ if __name__ == "__main__":
             former.apply_gravity()
             next_state = former.flattened_grid
 
-            if former.is_grid_empty():
-                reward = 100  # Positive reward for completing the game
-                done = True
-            elif former.grid[x, y] == 0:
-                reward = -10  # Negative reward for selecting an empty cell
-            else:
-                reward = -1  # Negative reward for each step
+            reward = calc_reward(former, x, y)
+            done = former.is_grid_empty()
 
             agent.train(state, action, reward, next_state, done)
 
@@ -87,4 +82,3 @@ if __name__ == "__main__":
 
     logger.plot()
     board_0_logger.plot()
-    org_former.print_grid()
