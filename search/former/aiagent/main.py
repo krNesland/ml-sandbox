@@ -1,6 +1,4 @@
 import time
-from multiprocessing import Pool
-from typing import List, Tuple
 
 import numpy as np
 
@@ -12,7 +10,7 @@ from search.former.former import Former
 
 
 # Function to suggest a cluster
-def suggest(args: Tuple[Former, scoring.ScoreBase]) -> Tuple[int, float]:
+def suggest(args: tuple[Former, scoring.ScoreBase]) -> tuple[int, float]:
     former, scorer = args
     cluster_id, score = utils.suggest_cluster(former, scorer, depth=4, width=10)
     return cluster_id, score
@@ -46,11 +44,6 @@ def play_game(
             print(f"🥊 Turn {turn_num}")
 
             print("Getting move suggestions...")
-
-            # TODO: Commented out now for simplicity. Should rewrite to first do one call of suggest and  then do the rest in parallel
-            # # Use Pool to parallelize the suggestion process
-            # with Pool(processes=8) as pool:  # Adjust the number of processes based on your CPU cores
-            #     results: List[Tuple[int, float]] = pool.map(suggest, [(former, scorer)] * 8)
 
             start_time = time.time()
             results = [suggest((former, scorer)) for _ in range(1)]
