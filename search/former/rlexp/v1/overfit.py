@@ -1,3 +1,11 @@
+"""
+Created on 2024-11-30
+
+Author: Kristoffer Nesland
+
+Description: Train on a single board
+"""
+
 import random
 from copy import deepcopy
 
@@ -9,7 +17,7 @@ from search.former.former import Former
 from search.former.rlexp.logger import QValuesLogger, TurnsLogger
 from search.former.rlexp.reward import calc_reward
 from search.former.rlexp.test_boards import ALL_TEST_BOARDS
-from search.former.rlexp.v0.agent import DQNAgent
+from search.former.rlexp.v1.agent import DQNAgent
 
 # Set random seeds for reproducibility
 random_seed = 42
@@ -18,22 +26,19 @@ np.random.seed(random_seed)
 
 
 if __name__ == "__main__":
-    rows = 9
-    cols = 7
-    shapes = [1, 2, 3, 4]  # Use numbers to represent different shapes
+    board = ALL_TEST_BOARDS[0]
 
-    org_former = Former(rows=rows, cols=cols, shapes=shapes)
+    org_former = Former.from_board(board)
 
     agent = DQNAgent(
         state_size=org_former.n_cells,
         action_size=org_former.n_cells,
     )
     logger = TurnsLogger()
-    board_0_logger = QValuesLogger(board=ALL_TEST_BOARDS[0])
+    board_0_logger = QValuesLogger(board)
 
-    episodes = 1_000
-    new_board_every = 5
-    log_every_n_episodes = 1
+    episodes = 10_000
+    log_every_n_episodes = 100
 
     with torch.no_grad():
         state = torch.FloatTensor(board_0_logger.board.flatten()).unsqueeze(0)
@@ -41,10 +46,6 @@ if __name__ == "__main__":
         board_0_logger.log(q_values=q_values, episode=0)
 
     for e in range(episodes):
-        if e % new_board_every == 0:
-            # Initializing a new board
-            org_former = Former(rows=rows, cols=cols, shapes=shapes)
-
         former = deepcopy(org_former)
 
         done: bool = False
@@ -84,3 +85,4 @@ if __name__ == "__main__":
 
     logger.plot()
     board_0_logger.plot()
+    org_former.print_grid()

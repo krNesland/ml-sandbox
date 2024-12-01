@@ -9,7 +9,7 @@ from search.former.former import Former
 from search.former.rlexp.logger import QValuesLogger, TurnsLogger
 from search.former.rlexp.reward import calc_reward
 from search.former.rlexp.test_boards import ALL_TEST_BOARDS
-from search.former.rlexp.v0.agent import DQNAgent
+from search.former.rlexp.v1.agent import DQNAgent
 
 # Set random seeds for reproducibility
 random_seed = 42

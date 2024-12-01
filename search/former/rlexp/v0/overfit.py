@@ -26,7 +26,7 @@ np.random.seed(random_seed)
 
 
 if __name__ == "__main__":
-    board = ALL_TEST_BOARDS[0]
+    board = ALL_TEST_BOARDS[1]
 
     org_former = Former.from_board(board)
 

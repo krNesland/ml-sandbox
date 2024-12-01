@@ -3,7 +3,7 @@ import torch.nn as nn
 
 
 class DQN(nn.Module):
-    def __init__(self, input_dim: int, output_dim: int, hidden_dim: int = 128):
+    def __init__(self, input_dim: int, output_dim: int, hidden_dim: int = 256):
         super(DQN, self).__init__()
         self._fc1 = nn.Linear(input_dim, hidden_dim)
         self._fc2 = nn.Linear(hidden_dim, hidden_dim)
