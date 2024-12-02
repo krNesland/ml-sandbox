@@ -15,4 +15,4 @@ v2:
 
 
 v3:
-- Monte Carlo Tree Search like AlphaZero
+- Monte Carlo Tree Search like AlphaZero: https://int8.io/monte-carlo-tree-search-beginners-guide/
