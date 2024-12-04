@@ -6,17 +6,16 @@ Author: Kristoffer Nesland
 Description: Brief description of the file
 """
 
-from search.former.former import Former
+import numpy as np
 
 
-def calc_reward(former: Former, x: int, y: int) -> float:
-    reward = 0.0
+def calc_reward(previous_state: np.ndarray, new_state: np.ndarray) -> float:
+    """
+    Should in principle be quite similar to giving the agent a large reward when finishing and a small negative reward for each turn. However, it might the simpler to learn from the current implementation.
+    """
+    n_zeros_new = np.sum(new_state == 0)
+    n_zeros_previous = np.sum(previous_state == 0)
 
-    if former.is_grid_empty():
-        reward = 100  # Positive reward for completing the game
-    elif former.grid[x, y] == 0:
-        reward = -5  # Negative reward for selecting an empty cell
-    else:
-        reward = -1  # Negative reward for each step
+    n_more_zeros = n_zeros_new - n_zeros_previous
 
-    return reward
+    return n_more_zeros - 1

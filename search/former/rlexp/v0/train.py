@@ -60,7 +60,7 @@ if __name__ == "__main__":
             former.apply_gravity()
             next_state = former.flattened_grid
 
-            reward = calc_reward(former, x, y)
+            reward = calc_reward(previous_state=state, new_state=next_state)
             done = former.is_grid_empty()
 
             agent.train(state, action, reward, next_state, done)
@@ -72,14 +72,14 @@ if __name__ == "__main__":
         )
 
         if e % log_every_n_episodes == 0:
-            logger.log(n_turns=turn_num, episode=e + 1)
+            logger.log(n_turns=turn_num - 1, episode=e + 1)
             with torch.no_grad():
                 state = torch.FloatTensor(board_0_logger.board.flatten()).unsqueeze(0)
                 q_values = agent.model(state).detach().numpy()[0]
                 board_0_logger.log(q_values=q_values, episode=e + 1)
 
         print(
-            f"Episode: {e + 1}/{episodes}, Turns: {turn_num}, Exploration Rate: {agent.epsilon:.2f}"
+            f"Episode: {e + 1}/{episodes}, Turns: {turn_num - 1}, Exploration Rate: {agent.epsilon:.2f}"
         )
 
     logger.plot()

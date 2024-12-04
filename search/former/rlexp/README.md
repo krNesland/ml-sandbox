@@ -13,6 +13,8 @@ v1:
 v2:
 - ConvNet
 
-
 v3:
+- "Soft exploration". Do not select random actions completely random, but base it on the q values.
+
+v4:
 - Monte Carlo Tree Search like AlphaZero: https://int8.io/monte-carlo-tree-search-beginners-guide/

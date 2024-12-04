@@ -6,6 +6,8 @@ Author: Kristoffer Nesland
 Description: Brief description of the file
 """
 
+from copy import deepcopy
+
 import numpy as np
 import plotly.graph_objects as go
 
@@ -50,7 +52,7 @@ class QValuesLogger:
 
     @property
     def board(self) -> np.ndarray:
-        return self._board
+        return deepcopy(self._board)
 
     def log(self, q_values: np.ndarray, episode: int) -> None:
         self._q_values["episode"].append(episode)

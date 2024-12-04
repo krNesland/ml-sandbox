@@ -5,9 +5,30 @@ When a shape is removed, the shapes above it fall down to fill the empty space, 
 The player continues to remove shapes until all shapes are removed.
 """
 
+from copy import deepcopy
+
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+
+SHAPES = [1, 2, 3, 4]
+
+
+def convert_to_channeled_grid(
+    grid: np.ndarray,
+    n_channels: int,
+    rows: int,
+    cols: int,
+    shapes: list[int],
+) -> np.ndarray:
+    # Create a 3D array with dimensions (number of shapes, rows, cols)
+    channels = np.zeros((n_channels, rows, cols), dtype=int)
+
+    # Fill each channel with ones where the grid matches the corresponding shape
+    for i, shape in enumerate(shapes):
+        channels[i] = (grid == shape).astype(int)
+
+    return channels
 
 
 class Former:
@@ -20,18 +41,28 @@ class Former:
     @classmethod
     def from_board(cls, board: np.ndarray) -> "Former":
         rows, cols = board.shape
-        shapes = list(np.unique(board))
+        shapes = SHAPES
         instance = cls(rows, cols, shapes)
         instance._grid = board
         return instance
 
     @property
     def grid(self) -> np.ndarray:
-        return self._grid
+        return deepcopy(self._grid)
 
     @property
     def flattened_grid(self) -> np.ndarray:
-        return self._grid.flatten()
+        return deepcopy(self._grid.flatten())
+
+    @property
+    def channeled_grid(self) -> np.ndarray:
+        return convert_to_channeled_grid(
+            grid=self.grid,
+            n_channels=self.n_channels,
+            rows=self.rows,
+            cols=self.cols,
+            shapes=self.shapes,
+        )
 
     @property
     def rows(self) -> int:
@@ -40,6 +71,14 @@ class Former:
     @property
     def cols(self) -> int:
         return self._cols
+
+    @property
+    def n_channels(self) -> int:
+        return len(self._shapes)
+
+    @property
+    def shapes(self) -> list[int]:
+        return self._shapes
 
     @property
     def n_cells(self) -> int:

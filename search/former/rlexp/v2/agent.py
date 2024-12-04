@@ -36,6 +36,7 @@ class ReplayMemory:
 class DQNAgent:
     def __init__(
         self,
+        n_input_channels: int,
         n_input_rows: int,
         n_input_cols: int,
         action_size: int,
@@ -43,15 +44,18 @@ class DQNAgent:
         batch_size: int = 64,
         target_update_frequency: int = 1_000,
     ):
+        self._n_input_channels = n_input_channels
         self._n_input_rows = n_input_rows
         self._n_input_cols = n_input_cols
         self._action_size = action_size
         self._model = DQN(
+            n_input_channels=n_input_channels,
             n_input_rows=n_input_rows,
             n_input_cols=n_input_cols,
             output_dim=action_size,
         )
         self._target_model = DQN(
+            n_input_channels=n_input_channels,
             n_input_rows=n_input_rows,
             n_input_cols=n_input_cols,
             output_dim=action_size,
@@ -84,7 +88,7 @@ class DQNAgent:
         if np.random.rand() <= self.epsilon:
             return np.random.choice(self._action_size)
 
-        state = torch.FloatTensor(state).unsqueeze(0).unsqueeze(0)
+        state = torch.FloatTensor(state).unsqueeze(0)
         q_values = self._model(state)
         return np.argmax(q_values.detach().numpy())
 
@@ -107,10 +111,10 @@ class DQNAgent:
         states, actions, rewards, next_states, dones = zip(*minibatch)
 
         # Convert to tensors
-        states = torch.FloatTensor(states).unsqueeze(1)
+        states = torch.FloatTensor(states)
         actions = torch.LongTensor(actions)
         rewards = torch.FloatTensor(rewards)
-        next_states = torch.FloatTensor(next_states).unsqueeze(1)
+        next_states = torch.FloatTensor(next_states)
         dones = torch.FloatTensor(dones)
 
         # Compute target values
