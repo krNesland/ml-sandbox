@@ -41,8 +41,8 @@ class DQNAgent:
         n_input_cols: int,
         action_size: int,
         memory_capacity: int = 10_000,
-        batch_size: int = 64,
-        target_update_frequency: int = 1_000,
+        batch_size: int = 1024,
+        target_update_frequency: int = 100,
     ):
         self._n_input_channels = n_input_channels
         self._n_input_rows = n_input_rows
@@ -65,7 +65,7 @@ class DQNAgent:
             lr=0.00001,
         )
         self._criterion = nn.MSELoss()
-        self.epsilon = 0.3  # Exploration rate
+        self.epsilon = 0.9  # Exploration rate
         self.epsilon_decay = 0.02
         self.epsilon_min = 0.1
         self._gamma = 1.0  # Discount factor
@@ -85,6 +85,9 @@ class DQNAgent:
         self._target_model.load_state_dict(self._model.state_dict())
 
     def act(self, state: np.ndarray) -> int:
+        """
+        Epsilon-greedy action selection
+        """
         if np.random.rand() <= self.epsilon:
             return np.random.choice(self._action_size)
 
@@ -110,7 +113,14 @@ class DQNAgent:
         minibatch = self._memory.sample(self._batch_size)
         states, actions, rewards, next_states, dones = zip(*minibatch)
 
-        # Convert to tensors
+        # Convert to a single numpy array first
+        states = np.array(states)
+        actions = np.array(actions)
+        rewards = np.array(rewards)
+        next_states = np.array(next_states)
+        dones = np.array(dones)
+
+        # Then convert to tensors
         states = torch.FloatTensor(states)
         actions = torch.LongTensor(actions)
         rewards = torch.FloatTensor(rewards)
