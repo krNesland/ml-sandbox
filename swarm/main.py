@@ -15,6 +15,8 @@ import plotly.graph_objects as go
 from PIL import Image
 from scipy.ndimage.filters import uniform_filter
 
+from swarm.utils import animation_from_figures
+
 PI: float = 3.1415
 
 
@@ -167,6 +169,7 @@ class World:
         self.pool = mp.Pool(mp.cpu_count())
 
     def __del__(self):
+        print("Deleting 'World' object...")
         self.pool.close()
 
     def __iter__(self):
@@ -248,13 +251,17 @@ class World:
             self.step()
             self.draw_frame()
 
+        figures: list[go.Figure] = list()
+
         for frame in self.frames:
             rgb_frame = np.stack((frame,) * 3, axis=-1)
-            print(np.max(frame))
 
             fig = go.Figure()
             fig.add_trace(go.Image(z=rgb_frame))
-            fig.show()
+            figures.append(fig)
+
+        animation = animation_from_figures(figures)
+        animation.show()
 
     @classmethod
     def from_image(cls, im: Image.Image):
@@ -271,6 +278,6 @@ if __name__ == "__main__":
     # TODO: Be able to export specific frame.
     # TODO: Copying the numpy arrays all the time probably takes a lot of time.
 
-    world_ = World(700, 500, move_speed=2.0)
-    world_.add_random_agents(8)
-    world_.run(10)
+    world_ = World(400, 300, move_speed=2.0)
+    world_.add_random_agents(100)
+    world_.run(40)
