@@ -97,6 +97,7 @@ def get_2026_budget_strategy():
         is_tier_a = price >= TIER_A_THRESHOLD
 
         sim_change_results = []
+        sim_pts_results = []
         sim_ppm_results = []
         for _ in range(100):
             sim_pts = _simulate_pts(p_n2, p_n1)
@@ -104,9 +105,11 @@ def get_2026_budget_strategy():
             sim_exp_change = _get_expected_price_change(sim_ppm, is_tier_a)
             sim_change_results.append(sim_exp_change)
             sim_ppm_results.append(sim_ppm)
+            sim_pts_results.append(sim_pts)
 
         exp_change = sum(sim_change_results) / len(sim_change_results)
         exp_ppm = sum(sim_ppm_results) / len(sim_ppm_results)
+        exp_pts = sum(sim_pts_results) / len(sim_pts_results)
 
         results.append(
             {
@@ -115,6 +118,7 @@ def get_2026_budget_strategy():
                 "season_pts": season_pts,
                 "p_n2": p_n2,
                 "p_n1": p_n1,
+                "exp_pts": exp_pts,
                 "exp_ppm": exp_ppm,
                 "exp_change": exp_change,
             }
@@ -130,6 +134,9 @@ def get_2026_budget_strategy():
     )
     print("  P_N2         — Points in the second-to-last *completed* round.")
     print("  P_N1         — Points in the last *completed* round.")
+    print(
+        "  EXP PTS      — Mean simulated points for the next round (random P_N1 vs P_N2)."
+    )
     print("  EXP PPM      — Mean simulated expected PPM.")
     print(
         "  EXP CHANGE   — Mean simulated expected price move ($M) from the 2026 PPM bands."
@@ -144,10 +151,10 @@ def get_2026_budget_strategy():
     print()
 
     print(
-        f"{'2026 ASSET':<22} | {'PRICE':<7} | {'SEASON':<8} | {'P_N2':<8} | {'P_N1':<8} | {'EXP PPM':<8} | "
-        f"{'EXP CHANGE':<11} | {'PTS EQUIV':>10}"
+        f"{'2026 ASSET':<22} | {'PRICE':<7} | {'SEASON':<8} | {'P_N2':<8} | {'P_N1':<8} | {'EXP PTS':<8} | "
+        f"{'EXP PPM':<8} | {'EXP CHANGE':<11} | {'PTS EQUIV':>10}"
     )
-    print("-" * 103)
+    print("-" * 114)
     for r in results:
         change_str = (
             f"{'+' if r['exp_change'] >= 0 else '-'}${abs(r['exp_change']):.2f}M"
@@ -156,7 +163,8 @@ def get_2026_budget_strategy():
         pts_str = f"{pts_equiv:+10.1f}"
         print(
             f"{r['name']:<22} | ${r['price']:>5.1f}M | {r['season_pts']:>8.0f} | "
-            f"{r['p_n2']:>8.0f} | {r['p_n1']:>8.0f} | {r['exp_ppm']:>8.2f} | {change_str:<11} | {pts_str}"
+            f"{r['p_n2']:>8.0f} | {r['p_n1']:>8.0f} | {r['exp_pts']:>8.1f} | {r['exp_ppm']:>8.2f} | "
+            f"{change_str:<11} | {pts_str}"
         )
 
 
