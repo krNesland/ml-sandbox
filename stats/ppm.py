@@ -1,19 +1,23 @@
 import json
+import math
 import random
-import re
 import urllib.request
 
-CURRENT_ROUND = 4
+CURRENT_ROUND = 5
 URL = f"https://fantasy.formula1.com/feeds/drivers/{CURRENT_ROUND}_en.json"
 
 N_RACES_2026 = 22
 AVG_RACE_SCORE_AT_100M_BUDGET = 200
 
-# Constants based on 2026 Price Change Algorithm
+# Constants based on 2026 Price Change Algorithm. Note, only valid when there are at least 3 completed rounds.
 PPM_TARGET_GREAT = 1.2
 PPM_TARGET_GOOD = 0.9
 PPM_TARGET_POOR = 0.6
 TIER_A_THRESHOLD = 18.5
+
+assert CURRENT_ROUND >= 3, (
+    "At least 3 completed rounds are required. If not, the PPM target bands are not valid."
+)
 
 
 def _get_expected_price_change(pred_ppm: float, tier_a: bool) -> float:
@@ -95,6 +99,7 @@ def get_2026_budget_strategy():
         season_pts = totals_list[-2].get(pid, 0.0)
 
         is_tier_a = price >= TIER_A_THRESHOLD
+        pts_to_great = math.ceil((PPM_TARGET_GREAT * price) - p_n2 - p_n1)
 
         sim_change_results = []
         sim_pts_results = []
@@ -118,13 +123,14 @@ def get_2026_budget_strategy():
                 "season_pts": season_pts,
                 "p_n2": p_n2,
                 "p_n1": p_n1,
+                "pts_to_great": pts_to_great,
                 "exp_pts": exp_pts,
                 "exp_ppm": exp_ppm,
                 "exp_change": exp_change,
             }
         )
 
-    results.sort(key=lambda x: x["exp_ppm"], reverse=True)
+    results.sort(key=lambda x: x["pts_to_great"], reverse=False)
 
     print("\nColumn guide:")
     print("  2026 ASSET   — Driver or constructor name.")
@@ -134,6 +140,9 @@ def get_2026_budget_strategy():
     )
     print("  P_N2         — Points in the second-to-last *completed* round.")
     print("  P_N1         — Points in the last *completed* round.")
+    print(
+        "  TO GREAT     — Points needed in the next round to reach the great PPM band."
+    )
     print(
         "  EXP PTS      — Mean simulated points for the next round (random P_N1 vs P_N2)."
     )
@@ -151,10 +160,10 @@ def get_2026_budget_strategy():
     print()
 
     print(
-        f"{'2026 ASSET':<22} | {'PRICE':<7} | {'SEASON':<8} | {'P_N2':<8} | {'P_N1':<8} | {'EXP PTS':<8} | "
+        f"{'2026 ASSET':<22} | {'PRICE':<7} | {'SEASON':<8} | {'P_N2':<8} | {'P_N1':<8} | {'TO GREAT':<8} | {'EXP PTS':<8} | "
         f"{'EXP PPM':<8} | {'EXP CHANGE':<11} | {'PTS EQUIV':>10}"
     )
-    print("-" * 114)
+    print("-" * 125)
     for r in results:
         change_str = (
             f"{'+' if r['exp_change'] >= 0 else '-'}${abs(r['exp_change']):.2f}M"
@@ -163,7 +172,7 @@ def get_2026_budget_strategy():
         pts_str = f"{pts_equiv:+10.1f}"
         print(
             f"{r['name']:<22} | ${r['price']:>5.1f}M | {r['season_pts']:>8.0f} | "
-            f"{r['p_n2']:>8.0f} | {r['p_n1']:>8.0f} | {r['exp_pts']:>8.1f} | {r['exp_ppm']:>8.2f} | "
+            f"{r['p_n2']:>8.0f} | {r['p_n1']:>8.0f} | {r['pts_to_great']:>8.0f} | {r['exp_pts']:>8.1f} | {r['exp_ppm']:>8.2f} | "
             f"{change_str:<11} | {pts_str}"
         )
 
