@@ -99,14 +99,14 @@ def get_2026_budget_strategy():
         season_pts = totals_list[-2].get(pid, 0.0)
 
         is_tier_a = price >= TIER_A_THRESHOLD
-        pts_to_great = math.ceil((PPM_TARGET_GREAT * price) - p_n2 - p_n1)
+        pts_to_great = math.ceil(3 * PPM_TARGET_GREAT * price - p_n2 - p_n1)
 
         sim_change_results = []
         sim_pts_results = []
         sim_ppm_results = []
         for _ in range(100):
             sim_pts = _simulate_pts(p_n2, p_n1)
-            sim_ppm = (p_n2 + p_n1 + sim_pts) / price
+            sim_ppm = (p_n2 + p_n1 + sim_pts) / 3 / price
             sim_exp_change = _get_expected_price_change(sim_ppm, is_tier_a)
             sim_change_results.append(sim_exp_change)
             sim_ppm_results.append(sim_ppm)
@@ -140,13 +140,12 @@ def get_2026_budget_strategy():
     )
     print("  P_N2         — Points in the second-to-last *completed* round.")
     print("  P_N1         — Points in the last *completed* round.")
-    print(
-        "  TO GREAT     — Points needed in the next round to reach the great PPM band."
-    )
+    print("  TO GREAT     — Points needed in the next round so the 3-race average PPM")
+    print("                 (P_N2, P_N1, next) reaches the great band.")
     print(
         "  EXP PTS      — Mean simulated points for the next round (random P_N1 vs P_N2)."
     )
-    print("  EXP PPM      — Mean simulated expected PPM.")
+    print("  EXP PPM      — Mean simulated PPM: avg(P_N2, P_N1, next round) / price.")
     print(
         "  EXP CHANGE   — Mean simulated expected price move ($M) from the 2026 PPM bands."
     )
