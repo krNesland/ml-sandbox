@@ -13,6 +13,7 @@ AVG_RACE_SCORE_AT_100M_BUDGET = 200
 PPM_TARGET_GREAT = 1.2
 PPM_TARGET_GOOD = 0.9
 PPM_TARGET_POOR = 0.6
+TIER_A_THRESHOLD = 18.5
 assert CURRENT_ROUND >= 4, (
     "At least 3 completed rounds are required (CURRENT_ROUND is the active feed index). "
     "If not, the PPM target bands are not valid."
@@ -23,6 +24,16 @@ def _race_sample_weights(n: int) -> list[float]:
     """Linear weights 1..n, e.g. three races → [1/6, 2/6, 3/6]."""
     denom = n * (n + 1) / 2
     return [i / denom for i in range(1, n + 1)]
+
+
+def _price_change_from_ppm(avg_ppm: float, tier_a: bool) -> float:
+    if avg_ppm >= PPM_TARGET_GREAT:
+        return 0.3 if tier_a else 0.6
+    if avg_ppm >= PPM_TARGET_GOOD:
+        return 0.1 if tier_a else 0.2
+    if avg_ppm >= PPM_TARGET_POOR:
+        return -0.1 if tier_a else -0.2
+    return -0.3 if tier_a else -0.6
 
 
 def _pts_to_great(price: float, p_n2: float, p_n1: float) -> int:
@@ -39,7 +50,9 @@ def _simulate_pts(race_points: list[float]) -> float:
     if len(race_points) == 1:
         return race_points[0]
     return random.choices(
-        race_points, weights=_race_sample_weights(len(race_points)), k=1
+        race_points,
+        weights=_race_sample_weights(len(race_points)),
+        k=1,
     )[0]
 
 
@@ -104,12 +117,18 @@ def get_2026_budget_strategy():
         season_pts = totals_list[-2].get(pid, 0.0)
 
         pts_to_great = _pts_to_great(price, p_n2, p_n1)
+        tier_a = price >= TIER_A_THRESHOLD
 
-        sim_pts_results = []
+        sim_pts_results: list[float] = []
+        sim_change_results: list[float] = []
         for _ in range(100):
-            sim_pts_results.append(_simulate_pts(race_pts))
+            sim_pts = _simulate_pts(race_pts)
+            sim_ppm = (p_n2 + p_n1 + sim_pts) / 3 / price
+            sim_change_results.append(_price_change_from_ppm(sim_ppm, tier_a))
+            sim_pts_results.append(sim_pts)
 
         exp_pts = sum(sim_pts_results) / len(sim_pts_results)
+        exp_change = sum(sim_change_results) / len(sim_change_results)
 
         results.append(
             {
@@ -119,11 +138,11 @@ def get_2026_budget_strategy():
                 "race_pts": race_pts,
                 "pts_to_great": pts_to_great,
                 "exp_pts": exp_pts,
-                "surplus": exp_pts - pts_to_great,
+                "exp_change": exp_change,
             }
         )
 
-    results.sort(key=lambda x: x["surplus"], reverse=True)
+    results.sort(key=lambda x: x["exp_change"], reverse=True)
 
     print("\nColumn guide:")
     print("  2026 ASSET   — Driver or constructor name.")
@@ -143,25 +162,27 @@ def get_2026_budget_strategy():
     print("  TO GREAT     — Points needed in the next round so the 3-race average PPM")
     print("                 (last two races + next) exceeds the great band (> 1.2).")
     print("                 Negative = already great with points to spare.")
-    print(
-        "  SURPLUS      — EXP PTS − TO GREAT (expected cushion above the great band)."
-    )
-    print("                 Table is sorted by SURPLUS (highest first).")
+    print("  EXP CHANGE   — Mean simulated price move ($M) from the 2026 PPM bands")
+    print("                 (avg of last two races + sampled next round).")
+    print("                 Table is sorted by EXP CHANGE (highest first).")
     print()
 
     race_cols = " | ".join(f"{f'P_R{i}':<8}" for i in range(1, n_completed + 1))
     print(
         f"{'2026 ASSET':<22} | {'PRICE':<7} | {'SEASON':<8} | {race_cols} | {'EXP PTS':<8} | "
-        f"{'TO GREAT':<8} | {'SURPLUS':<8}"
+        f"{'TO GREAT':<8} | {'EXP CHANGE':<11}"
     )
-    print("-" * (88 + 11 * max(0, n_completed - 1)))
+    print("-" * (99 + 11 * max(0, n_completed - 1)))
     for r in results:
         race_vals = " | ".join(f"{pts:>8.0f}" for pts in r["race_pts"])
+        sign = "+" if r["exp_change"] >= 0 else "-"
+        change_str = f"{sign}${abs(r['exp_change']):.2f}M"
         print(
             f"{r['name']:<22} | ${r['price']:>5.1f}M | {r['season_pts']:>8.0f} | "
-            f"{race_vals} | {r['exp_pts']:>8.1f} | {r['pts_to_great']:>+8.0f} | {r['surplus']:>+8.1f}"
+            f"{race_vals} | {r['exp_pts']:>8.1f} | {r['pts_to_great']:>+8.0f} | {change_str:<11}"
         )
 
 
 if __name__ == "__main__":
     get_2026_budget_strategy()
+    # TODO: Add some cross-learning? When sampling points, sample not only based on that specific asset, but also based on the other assets in the portfolio.
