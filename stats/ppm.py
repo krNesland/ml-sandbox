@@ -5,6 +5,7 @@ import urllib.request
 
 CURRENT_ROUND = 6
 URL = f"https://fantasy.formula1.com/feeds/drivers/{CURRENT_ROUND}_en.json"
+SCHEDULE_URL = "https://fantasy.formula1.com/feeds/v2/schedule/raceday_en.json"
 
 N_RACES_2026 = 22
 AVG_RACE_SCORE_AT_100M_BUDGET = 200
@@ -65,13 +66,27 @@ def _fetch_feed(url: str):
         return {}
 
 
-def _get_overall_points(data: dict) -> dict:
+def _get_gameday_points(data: dict) -> dict:
+    """Per-round fantasy points from the round's feed (not cumulative OverallPpints)."""
     out = {}
     for p in data.get("Data", {}).get("Value", []):
         pid = p.get("PlayerId")
-        raw = p.get("OverallPpints", 0)  # Typo in 2026 feed
+        raw = p.get("GamedayPoints", 0)
         out[pid] = float(raw) if raw else 0.0
     return out
+
+
+def _get_race_venues() -> list[str]:
+    """Round number → venue from the fantasy schedule feed."""
+    circuits = _fetch_feed(SCHEDULE_URL).get("Data", {}).get("circuit", [])
+    by_round = {
+        c["MeetingNumber"]: c.get("CircuitLocation") or c.get("MeetingName", "?")
+        for c in circuits
+        if c.get("MeetingNumber") is not None
+    }
+    if not by_round:
+        return []
+    return [by_round.get(i, "?") for i in range(1, max(by_round) + 1)]
 
 
 def get_2026_budget_strategy():
@@ -79,8 +94,10 @@ def get_2026_budget_strategy():
     if not data:
         return
 
+    race_venues = _get_race_venues()
+    n_season_races = len(race_venues) or N_RACES_2026
     n_completed_races = CURRENT_ROUND - 1  # feed index is the active/upcoming round
-    n_remaining_races = N_RACES_2026 - n_completed_races
+    n_remaining_races = n_season_races - n_completed_races
     avg_ppm = AVG_RACE_SCORE_AT_100M_BUDGET / 100
     one_m_worth = avg_ppm * n_remaining_races
 
@@ -88,11 +105,10 @@ def get_2026_budget_strategy():
         f"One million dollars is worth {one_m_worth:.2f} points at the end of the season."
     )
 
-    totals_list = []
-    for round in range(0, CURRENT_ROUND + 1):
-        url = URL.replace(f"/{CURRENT_ROUND}_", f"/{round}_")
-        totals = _get_overall_points(_fetch_feed(url))
-        totals_list.append(totals)
+    race_feeds = [
+        _fetch_feed(URL.replace(f"/{CURRENT_ROUND}_", f"/{round}_"))
+        for round in range(1, CURRENT_ROUND)
+    ]
 
     all_assets = data.get("Data", {}).get("Value", [])
     results = []
@@ -104,17 +120,14 @@ def get_2026_budget_strategy():
         if price == 0:
             continue
 
-        # totals_list[-1] is the ongoing/upcoming round; race k uses totals_list[k] − totals_list[k−1]
-        race_pts: list[float] = []
-        for i in range(1, len(totals_list) - 1):
-            race_pts.append(
-                totals_list[i].get(pid, 0.0) - totals_list[i - 1].get(pid, 0.0)
-            )
+        race_pts = [
+            _get_gameday_points(f).get(pid, 0.0) for f in race_feeds
+        ]
 
         p_n1 = race_pts[-1] if race_pts else 0.0
         p_n2 = race_pts[-2] if len(race_pts) >= 2 else 0.0
 
-        season_pts = totals_list[-2].get(pid, 0.0)
+        season_pts = sum(race_pts)
 
         pts_to_great = _pts_to_great(price, p_n2, p_n1)
         tier_a = price >= TIER_A_THRESHOLD
@@ -154,6 +167,9 @@ def get_2026_budget_strategy():
     print(
         f"  P_R1…P_R{n_completed} — Points per completed race (R1 = first, R{n_completed} = latest)."
     )
+    for i in range(n_completed):
+        venue = race_venues[i] if i < len(race_venues) else "?"
+        print(f"                 R{i + 1} — {venue}")
     print("  EXP PTS      — Mean simulated next-round points (sampled from all races;")
     print(
         f"                 linear weights 1…{n_completed} → "
