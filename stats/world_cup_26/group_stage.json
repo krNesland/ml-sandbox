@@ -1,0 +1,314 @@
+{
+    "Gruppe A": [
+      {
+        "hjemmelag": "Mexico",
+        "bortelag": "Sør-Afrika"
+      },
+      {
+        "hjemmelag": "Sør-Korea",
+        "bortelag": "Tsjekkia"
+      },
+      {
+        "hjemmelag": "Mexico",
+        "bortelag": "Sør-Korea"
+      },
+      {
+        "hjemmelag": "Tsjekkia",
+        "bortelag": "Sør-Afrika"
+      },
+      {
+        "hjemmelag": "Tsjekkia",
+        "bortelag": "Mexico"
+      },
+      {
+        "hjemmelag": "Sør-Afrika",
+        "bortelag": "Sør-Korea"
+      }
+    ],
+    "Gruppe B": [
+      {
+        "hjemmelag": "Canada",
+        "bortelag": "Bosnia-Hercegovina"
+      },
+      {
+        "hjemmelag": "Qatar",
+        "bortelag": "Sveits"
+      },
+      {
+        "hjemmelag": "Canada",
+        "bortelag": "Qatar"
+      },
+      {
+        "hjemmelag": "Sveits",
+        "bortelag": "Bosnia-Hercegovina"
+      },
+      {
+        "hjemmelag": "Sveits",
+        "bortelag": "Canada"
+      },
+      {
+        "hjemmelag": "Bosnia-Hercegovina",
+        "bortelag": "Qatar"
+      }
+    ],
+    "Gruppe C": [
+      {
+        "hjemmelag": "Brasil",
+        "bortelag": "Marokko"
+      },
+      {
+        "hjemmelag": "Haiti",
+        "bortelag": "Skottland"
+      },
+      {
+        "hjemmelag": "Brasil",
+        "bortelag": "Haiti"
+      },
+      {
+        "hjemmelag": "Skottland",
+        "bortelag": "Marokko"
+      },
+      {
+        "hjemmelag": "Skottland",
+        "bortelag": "Brasil"
+      },
+      {
+        "hjemmelag": "Marokko",
+        "bortelag": "Haiti"
+      }
+    ],
+    "Gruppe D": [
+      {
+        "hjemmelag": "USA",
+        "bortelag": "Paraguay"
+      },
+      {
+        "hjemmelag": "Australia",
+        "bortelag": "Tyrkia"
+      },
+      {
+        "hjemmelag": "USA",
+        "bortelag": "Australia"
+      },
+      {
+        "hjemmelag": "Tyrkia",
+        "bortelag": "Paraguay"
+      },
+      {
+        "hjemmelag": "Tyrkia",
+        "bortelag": "USA"
+      },
+      {
+        "hjemmelag": "Paraguay",
+        "bortelag": "Australia"
+      }
+    ],
+    "Gruppe E": [
+      {
+        "hjemmelag": "Tyskland",
+        "bortelag": "Curacao"
+      },
+      {
+        "hjemmelag": "Elfenbenskysten",
+        "bortelag": "Ecuador"
+      },
+      {
+        "hjemmelag": "Tyskland",
+        "bortelag": "Elfenbenskysten"
+      },
+      {
+        "hjemmelag": "Ecuador",
+        "bortelag": "Curacao"
+      },
+      {
+        "hjemmelag": "Ecuador",
+        "bortelag": "Tyskland"
+      },
+      {
+        "hjemmelag": "Curacao",
+        "bortelag": "Elfenbenskysten"
+      }
+    ],
+    "Gruppe F": [
+      {
+        "hjemmelag": "Nederland",
+        "bortelag": "Japan"
+      },
+      {
+        "hjemmelag": "Sverige",
+        "bortelag": "Tunisia"
+      },
+      {
+        "hjemmelag": "Nederland",
+        "bortelag": "Sverige"
+      },
+      {
+        "hjemmelag": "Tunisia",
+        "bortelag": "Japan"
+      },
+      {
+        "hjemmelag": "Tunisia",
+        "bortelag": "Nederland"
+      },
+      {
+        "hjemmelag": "Japan",
+        "bortelag": "Sverige"
+      }
+    ],
+    "Gruppe G": [
+      {
+        "hjemmelag": "Belgia",
+        "bortelag": "Egypt"
+      },
+      {
+        "hjemmelag": "Iran",
+        "bortelag": "New Zealand"
+      },
+      {
+        "hjemmelag": "Belgia",
+        "bortelag": "Iran"
+      },
+      {
+        "hjemmelag": "New Zealand",
+        "bortelag": "Egypt"
+      },
+      {
+        "hjemmelag": "New Zealand",
+        "bortelag": "Belgia"
+      },
+      {
+        "hjemmelag": "Egypt",
+        "bortelag": "Iran"
+      }
+    ],
+    "Gruppe H": [
+      {
+        "hjemmelag": "Spania",
+        "bortelag": "Kapp Verde"
+      },
+      {
+        "hjemmelag": "Saudi-Arabia",
+        "bortelag": "Uruguay"
+      },
+      {
+        "hjemmelag": "Spania",
+        "bortelag": "Saudi-Arabia"
+      },
+      {
+        "hjemmelag": "Uruguay",
+        "bortelag": "Kapp Verde"
+      },
+      {
+        "hjemmelag": "Uruguay",
+        "bortelag": "Spania"
+      },
+      {
+        "hjemmelag": "Kapp Verde",
+        "bortelag": "Saudi-Arabia"
+      }
+    ],
+    "Gruppe I": [
+      {
+        "hjemmelag": "Frankrike",
+        "bortelag": "Senegal"
+      },
+      {
+        "hjemmelag": "Irak",
+        "bortelag": "Norge"
+      },
+      {
+        "hjemmelag": "Frankrike",
+        "bortelag": "Irak"
+      },
+      {
+        "hjemmelag": "Norge",
+        "bortelag": "Senegal"
+      },
+      {
+        "hjemmelag": "Norge",
+        "bortelag": "Frankrike"
+      },
+      {
+        "hjemmelag": "Senegal",
+        "bortelag": "Irak"
+      }
+    ],
+    "Gruppe J": [
+      {
+        "hjemmelag": "Argentina",
+        "bortelag": "Algerie"
+      },
+      {
+        "hjemmelag": "Østerrike",
+        "bortelag": "Jordan"
+      },
+      {
+        "hjemmelag": "Argentina",
+        "bortelag": "Østerrike"
+      },
+      {
+        "hjemmelag": "Jordan",
+        "bortelag": "Algerie"
+      },
+      {
+        "hjemmelag": "Jordan",
+        "bortelag": "Argentina"
+      },
+      {
+        "hjemmelag": "Algerie",
+        "bortelag": "Østerrike"
+      }
+    ],
+    "Gruppe K": [
+      {
+        "hjemmelag": "Portugal",
+        "bortelag": "DR Kongo"
+      },
+      {
+        "hjemmelag": "Usbekistan",
+        "bortelag": "Colombia"
+      },
+      {
+        "hjemmelag": "Portugal",
+        "bortelag": "Usbekistan"
+      },
+      {
+        "hjemmelag": "Colombia",
+        "bortelag": "DR Kongo"
+      },
+      {
+        "hjemmelag": "Colombia",
+        "bortelag": "Portugal"
+      },
+      {
+        "hjemmelag": "DR Kongo",
+        "bortelag": "Usbekistan"
+      }
+    ],
+    "Gruppe L": [
+      {
+        "hjemmelag": "England",
+        "bortelag": "Kroatia"
+      },
+      {
+        "hjemmelag": "Ghana",
+        "bortelag": "Panama"
+      },
+      {
+        "hjemmelag": "England",
+        "bortelag": "Ghana"
+      },
+      {
+        "hjemmelag": "Panama",
+        "bortelag": "Kroatia"
+      },
+      {
+        "hjemmelag": "Panama",
+        "bortelag": "England"
+      },
+      {
+        "hjemmelag": "Kroatia",
+        "bortelag": "Ghana"
+      }
+    ]
+  }

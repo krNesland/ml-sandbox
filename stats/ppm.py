@@ -3,7 +3,7 @@ import math
 import random
 import urllib.request
 
-CURRENT_ROUND = 6
+CURRENT_ROUND = 7
 URL = f"https://fantasy.formula1.com/feeds/drivers/{CURRENT_ROUND}_en.json"
 SCHEDULE_URL = "https://fantasy.formula1.com/feeds/v2/schedule/raceday_en.json"
 
@@ -120,9 +120,7 @@ def get_2026_budget_strategy():
         if price == 0:
             continue
 
-        race_pts = [
-            _get_gameday_points(f).get(pid, 0.0) for f in race_feeds
-        ]
+        race_pts = [_get_gameday_points(f).get(pid, 0.0) for f in race_feeds]
 
         p_n1 = race_pts[-1] if race_pts else 0.0
         p_n2 = race_pts[-2] if len(race_pts) >= 2 else 0.0
