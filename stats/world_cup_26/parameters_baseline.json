@@ -1,0 +1,17 @@
+{
+    "normal_goals_per_match": 2.4,
+    "teams": {
+        "Spain": 210, "France": 205, "England": 160, "Portugal": 158,
+        "Brazil": 148, "Argentina": 145, "Germany": 135, "Netherlands": 125,
+        "Turkey": 105, "Mexico": 102, "Colombia": 102, "Norway": 100,
+        "Croatia": 98, "Switzerland": 97, "Belgium": 97, "Uruguay": 97,
+        "Japan": 95, "Canada": 92, "Ecuador": 92, "Paraguay": 90,
+        "Iran": 88, "USA": 85, "Austria": 85, "Australia": 82,
+        "South Korea": 80, "Scotland": 80, "Czech Republic": 78, "Morocco": 78,
+        "Egypt": 78, "Sweden": 75, "Ivory Coast": 75, "Senegal": 75,
+        "Panama": 72, "Saudi Arabia": 65, "Algeria": 65, "Cape Verde": 60,
+        "South Africa": 55, "Uzbekistan": 55, "DR Congo": 52, "New Zealand": 50,
+        "Jordan": 50, "Bosnia-Hercegovina": 45, "Tunisia": 45, "Iraq": 42,
+        "Haiti": 40, "Qatar": 35, "Curacao": 32, "Ghana": 30
+    }
+}

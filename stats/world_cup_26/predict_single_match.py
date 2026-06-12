@@ -10,7 +10,7 @@ from simulate_match import simulate_match
 from tabulate import tabulate
 
 TEAM1 = "Norway"
-TEAM2 = "France"
+TEAM2 = "Iraq"
 N = 10_000
 IS_KNOCKOUT = False
 
