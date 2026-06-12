@@ -3,10 +3,11 @@ import math
 
 import plotly.graph_objects as go
 from simulate_match import simulate_match
+from tabulate import tabulate
 
-TEAM1 = "Canada"
-TEAM2 = "Bosnia-Hercegovina"
-N = 1000
+TEAM1 = "Brazil"
+TEAM2 = "Morocco"
+N = 10_000
 IS_KNOCKOUT = False
 
 win_a = win_b = draws = penalties = 0
@@ -27,13 +28,33 @@ for _ in range(N):
     else:
         draws += 1
 
-print(f"\n--- {N} simulations: {TEAM1} vs {TEAM2} ---")
-print(f"  {TEAM1} wins (reg/ET):  {win_a / N:.1%}")
+p_a = win_a / N
+p_draw = draws / N
+p_b = win_b / N
+p_pen = penalties / N
+
+odds_a = 1 / p_a if p_a > 0 else float("inf")
+odds_draw = 1 / p_draw if p_draw > 0 else float("inf")
+odds_b = 1 / p_b if p_b > 0 else float("inf")
+
+rows = [
+    [f"{TEAM1} wins", f"{p_a:.1%}", f"{odds_a:.2f}"],
+]
 if IS_KNOCKOUT:
-    print(f"  Penalties:            {penalties / N:.1%}")
+    rows.append(["Penalties", f"{p_pen:.1%}", "—"])
 else:
-    print(f"  Draws:                {draws / N:.1%}")
-print(f"  {TEAM2} wins (reg/ET):  {win_b / N:.1%}")
+    rows.append(["Draw", f"{p_draw:.1%}", f"{odds_draw:.2f}"])
+rows.append([f"{TEAM2} wins", f"{p_b:.1%}", f"{odds_b:.2f}"])
+
+print(f"\n--- {N} simulations: {TEAM1} vs {TEAM2} ---")
+print(
+    tabulate(
+        rows,
+        headers=["Outcome", "Prob", "Odds"],
+        tablefmt="simple",
+        colalign=("left", "right", "right"),
+    )
+)
 
 # Build heatmap matrix
 # z_color uses sign to encode winner: +pct = team1 wins, -pct = team2 wins, 0 = draw/penalties
