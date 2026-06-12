@@ -9,8 +9,8 @@ import plotly.graph_objects as go
 from simulate_match import simulate_match
 from tabulate import tabulate
 
-TEAM1 = "Norway"
-TEAM2 = "Iraq"
+TEAM1 = "Qatar"
+TEAM2 = "Switzerland"
 N = 10_000
 IS_KNOCKOUT = False
 
