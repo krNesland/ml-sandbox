@@ -1,3 +1,7 @@
+"""
+Multiple draws for a single match.
+"""
+
 import collections
 import math
 
@@ -5,8 +9,8 @@ import plotly.graph_objects as go
 from simulate_match import simulate_match
 from tabulate import tabulate
 
-TEAM1 = "Brazil"
-TEAM2 = "Morocco"
+TEAM1 = "Norway"
+TEAM2 = "France"
 N = 10_000
 IS_KNOCKOUT = False
 

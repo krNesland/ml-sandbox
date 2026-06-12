@@ -1,3 +1,7 @@
+"""
+A single draw for each match in the group stage.
+"""
+
 import json
 from pathlib import Path
 
