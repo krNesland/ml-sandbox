@@ -13,8 +13,8 @@ for group_name, matches in group_stage.items():
     print(f"{'=' * 45}")
 
     for match in matches:
-        home = match["hjemmelag"]
-        away = match["bortelag"]
+        home = match["home"]
+        away = match["away"]
         g_a, g_b, winner, _ = simulate_match(home, away, is_knockout=False)
         print(f"  {home} {g_a}–{g_b} {away}  →  {winner}")
 

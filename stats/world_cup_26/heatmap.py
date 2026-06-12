@@ -2,13 +2,12 @@ import collections
 import math
 
 import plotly.graph_objects as go
-
 from simulate_match import simulate_match
 
-TEAM1 = "Norge"
-TEAM2 = "Brasil"
+TEAM1 = "Canada"
+TEAM2 = "Bosnia-Hercegovina"
 N = 1000
-IS_KNOCKOUT = True
+IS_KNOCKOUT = False
 
 win_a = win_b = draws = penalties = 0
 final_score_counts: dict[tuple[int, int], int] = collections.defaultdict(int)
@@ -17,7 +16,7 @@ for _ in range(N):
     g_a, g_b, winner, log = simulate_match(TEAM1, TEAM2, is_knockout=IS_KNOCKOUT)
     final_score_counts[(g_a, g_b)] += 1
     went_to_penalties = any(
-        "straffer" in line.lower() and "vinner" in line.lower() for line in log
+        "penalties" in line.lower() and "winner" in line.lower() for line in log
     )
     if went_to_penalties:
         penalties += 1
@@ -28,13 +27,13 @@ for _ in range(N):
     else:
         draws += 1
 
-print(f"\n--- {N} simuleringer: {TEAM1} vs {TEAM2} ---")
-print(f"  {TEAM1} vinner (reg/ET):  {win_a / N:.1%}")
+print(f"\n--- {N} simulations: {TEAM1} vs {TEAM2} ---")
+print(f"  {TEAM1} wins (reg/ET):  {win_a / N:.1%}")
 if IS_KNOCKOUT:
-    print(f"  Straffer:              {penalties / N:.1%}")
+    print(f"  Penalties:            {penalties / N:.1%}")
 else:
-    print(f"  Uavgjort:              {draws / N:.1%}")
-print(f"  {TEAM2} vinner (reg/ET):  {win_b / N:.1%}")
+    print(f"  Draws:                {draws / N:.1%}")
+print(f"  {TEAM2} wins (reg/ET):  {win_b / N:.1%}")
 
 # Build heatmap matrix
 # z_color uses sign to encode winner: +pct = team1 wins, -pct = team2 wins, 0 = draw/penalties
@@ -85,12 +84,12 @@ fig = go.Figure(
         zmax=max_abs,
         showscale=True,
         colorbar=dict(
-            title="Frekvens (%)",
+            title="Frequency (%)",
             tickvals=[-max_abs, -max_abs / 2, 0, max_abs / 2, max_abs],
             ticktext=[
                 f"−{max_abs:.0f}% ({TEAM2})",
                 f"−{max_abs / 2:.0f}%",
-                "0% (uavgjort)",
+                "0% (draw)",
                 f"+{max_abs / 2:.0f}%",
                 f"+{max_abs:.0f}% ({TEAM1})",
             ],
@@ -98,12 +97,12 @@ fig = go.Figure(
     )
 )
 fig.update_layout(
-    title=f"Scoringsfordeling: {TEAM1} vs {TEAM2} ({N} simuleringer)<br>"
-    f"<sup style='color:#c0392b'>■ {TEAM1} vinner</sup>  "
-    f"<sup style='color:#2d6a4f'>■ {TEAM2} vinner</sup>  "
-    f"<sup style='color:#888'>■ Uavgjort/straffer</sup>",
-    xaxis_title=f"Mål — {TEAM1}",
-    yaxis_title=f"Mål — {TEAM2}",
+    title=f"Score distribution: {TEAM1} vs {TEAM2} ({N} simulations)<br>"
+    f"<sup style='color:#c0392b'>■ {TEAM1} wins</sup>  "
+    f"<sup style='color:#2d6a4f'>■ {TEAM2} wins</sup>  "
+    f"<sup style='color:#888'>■ Draw/penalties</sup>",
+    xaxis_title=f"Goals — {TEAM1}",
+    yaxis_title=f"Goals — {TEAM2}",
     xaxis=dict(side="bottom"),
     width=700,
     height=620,

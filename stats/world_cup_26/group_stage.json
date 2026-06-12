@@ -1,314 +1,314 @@
 {
-    "Gruppe A": [
+    "Group A": [
       {
-        "hjemmelag": "Mexico",
-        "bortelag": "Sør-Afrika"
+        "home": "Mexico",
+        "away": "South Africa"
       },
       {
-        "hjemmelag": "Sør-Korea",
-        "bortelag": "Tsjekkia"
+        "home": "South Korea",
+        "away": "Czech Republic"
       },
       {
-        "hjemmelag": "Mexico",
-        "bortelag": "Sør-Korea"
+        "home": "Mexico",
+        "away": "South Korea"
       },
       {
-        "hjemmelag": "Tsjekkia",
-        "bortelag": "Sør-Afrika"
+        "home": "Czech Republic",
+        "away": "South Africa"
       },
       {
-        "hjemmelag": "Tsjekkia",
-        "bortelag": "Mexico"
+        "home": "Czech Republic",
+        "away": "Mexico"
       },
       {
-        "hjemmelag": "Sør-Afrika",
-        "bortelag": "Sør-Korea"
+        "home": "South Africa",
+        "away": "South Korea"
       }
     ],
-    "Gruppe B": [
+    "Group B": [
       {
-        "hjemmelag": "Canada",
-        "bortelag": "Bosnia-Hercegovina"
+        "home": "Canada",
+        "away": "Bosnia-Hercegovina"
       },
       {
-        "hjemmelag": "Qatar",
-        "bortelag": "Sveits"
+        "home": "Qatar",
+        "away": "Switzerland"
       },
       {
-        "hjemmelag": "Canada",
-        "bortelag": "Qatar"
+        "home": "Canada",
+        "away": "Qatar"
       },
       {
-        "hjemmelag": "Sveits",
-        "bortelag": "Bosnia-Hercegovina"
+        "home": "Switzerland",
+        "away": "Bosnia-Hercegovina"
       },
       {
-        "hjemmelag": "Sveits",
-        "bortelag": "Canada"
+        "home": "Switzerland",
+        "away": "Canada"
       },
       {
-        "hjemmelag": "Bosnia-Hercegovina",
-        "bortelag": "Qatar"
+        "home": "Bosnia-Hercegovina",
+        "away": "Qatar"
       }
     ],
-    "Gruppe C": [
+    "Group C": [
       {
-        "hjemmelag": "Brasil",
-        "bortelag": "Marokko"
+        "home": "Brazil",
+        "away": "Morocco"
       },
       {
-        "hjemmelag": "Haiti",
-        "bortelag": "Skottland"
+        "home": "Haiti",
+        "away": "Scotland"
       },
       {
-        "hjemmelag": "Brasil",
-        "bortelag": "Haiti"
+        "home": "Brazil",
+        "away": "Haiti"
       },
       {
-        "hjemmelag": "Skottland",
-        "bortelag": "Marokko"
+        "home": "Scotland",
+        "away": "Morocco"
       },
       {
-        "hjemmelag": "Skottland",
-        "bortelag": "Brasil"
+        "home": "Scotland",
+        "away": "Brazil"
       },
       {
-        "hjemmelag": "Marokko",
-        "bortelag": "Haiti"
+        "home": "Morocco",
+        "away": "Haiti"
       }
     ],
-    "Gruppe D": [
+    "Group D": [
       {
-        "hjemmelag": "USA",
-        "bortelag": "Paraguay"
+        "home": "USA",
+        "away": "Paraguay"
       },
       {
-        "hjemmelag": "Australia",
-        "bortelag": "Tyrkia"
+        "home": "Australia",
+        "away": "Turkey"
       },
       {
-        "hjemmelag": "USA",
-        "bortelag": "Australia"
+        "home": "USA",
+        "away": "Australia"
       },
       {
-        "hjemmelag": "Tyrkia",
-        "bortelag": "Paraguay"
+        "home": "Turkey",
+        "away": "Paraguay"
       },
       {
-        "hjemmelag": "Tyrkia",
-        "bortelag": "USA"
+        "home": "Turkey",
+        "away": "USA"
       },
       {
-        "hjemmelag": "Paraguay",
-        "bortelag": "Australia"
+        "home": "Paraguay",
+        "away": "Australia"
       }
     ],
-    "Gruppe E": [
+    "Group E": [
       {
-        "hjemmelag": "Tyskland",
-        "bortelag": "Curacao"
+        "home": "Germany",
+        "away": "Curacao"
       },
       {
-        "hjemmelag": "Elfenbenskysten",
-        "bortelag": "Ecuador"
+        "home": "Ivory Coast",
+        "away": "Ecuador"
       },
       {
-        "hjemmelag": "Tyskland",
-        "bortelag": "Elfenbenskysten"
+        "home": "Germany",
+        "away": "Ivory Coast"
       },
       {
-        "hjemmelag": "Ecuador",
-        "bortelag": "Curacao"
+        "home": "Ecuador",
+        "away": "Curacao"
       },
       {
-        "hjemmelag": "Ecuador",
-        "bortelag": "Tyskland"
+        "home": "Ecuador",
+        "away": "Germany"
       },
       {
-        "hjemmelag": "Curacao",
-        "bortelag": "Elfenbenskysten"
+        "home": "Curacao",
+        "away": "Ivory Coast"
       }
     ],
-    "Gruppe F": [
+    "Group F": [
       {
-        "hjemmelag": "Nederland",
-        "bortelag": "Japan"
+        "home": "Netherlands",
+        "away": "Japan"
       },
       {
-        "hjemmelag": "Sverige",
-        "bortelag": "Tunisia"
+        "home": "Sweden",
+        "away": "Tunisia"
       },
       {
-        "hjemmelag": "Nederland",
-        "bortelag": "Sverige"
+        "home": "Netherlands",
+        "away": "Sweden"
       },
       {
-        "hjemmelag": "Tunisia",
-        "bortelag": "Japan"
+        "home": "Tunisia",
+        "away": "Japan"
       },
       {
-        "hjemmelag": "Tunisia",
-        "bortelag": "Nederland"
+        "home": "Tunisia",
+        "away": "Netherlands"
       },
       {
-        "hjemmelag": "Japan",
-        "bortelag": "Sverige"
+        "home": "Japan",
+        "away": "Sweden"
       }
     ],
-    "Gruppe G": [
+    "Group G": [
       {
-        "hjemmelag": "Belgia",
-        "bortelag": "Egypt"
+        "home": "Belgium",
+        "away": "Egypt"
       },
       {
-        "hjemmelag": "Iran",
-        "bortelag": "New Zealand"
+        "home": "Iran",
+        "away": "New Zealand"
       },
       {
-        "hjemmelag": "Belgia",
-        "bortelag": "Iran"
+        "home": "Belgium",
+        "away": "Iran"
       },
       {
-        "hjemmelag": "New Zealand",
-        "bortelag": "Egypt"
+        "home": "New Zealand",
+        "away": "Egypt"
       },
       {
-        "hjemmelag": "New Zealand",
-        "bortelag": "Belgia"
+        "home": "New Zealand",
+        "away": "Belgium"
       },
       {
-        "hjemmelag": "Egypt",
-        "bortelag": "Iran"
+        "home": "Egypt",
+        "away": "Iran"
       }
     ],
-    "Gruppe H": [
+    "Group H": [
       {
-        "hjemmelag": "Spania",
-        "bortelag": "Kapp Verde"
+        "home": "Spain",
+        "away": "Cape Verde"
       },
       {
-        "hjemmelag": "Saudi-Arabia",
-        "bortelag": "Uruguay"
+        "home": "Saudi Arabia",
+        "away": "Uruguay"
       },
       {
-        "hjemmelag": "Spania",
-        "bortelag": "Saudi-Arabia"
+        "home": "Spain",
+        "away": "Saudi Arabia"
       },
       {
-        "hjemmelag": "Uruguay",
-        "bortelag": "Kapp Verde"
+        "home": "Uruguay",
+        "away": "Cape Verde"
       },
       {
-        "hjemmelag": "Uruguay",
-        "bortelag": "Spania"
+        "home": "Uruguay",
+        "away": "Spain"
       },
       {
-        "hjemmelag": "Kapp Verde",
-        "bortelag": "Saudi-Arabia"
+        "home": "Cape Verde",
+        "away": "Saudi Arabia"
       }
     ],
-    "Gruppe I": [
+    "Group I": [
       {
-        "hjemmelag": "Frankrike",
-        "bortelag": "Senegal"
+        "home": "France",
+        "away": "Senegal"
       },
       {
-        "hjemmelag": "Irak",
-        "bortelag": "Norge"
+        "home": "Iraq",
+        "away": "Norway"
       },
       {
-        "hjemmelag": "Frankrike",
-        "bortelag": "Irak"
+        "home": "France",
+        "away": "Iraq"
       },
       {
-        "hjemmelag": "Norge",
-        "bortelag": "Senegal"
+        "home": "Norway",
+        "away": "Senegal"
       },
       {
-        "hjemmelag": "Norge",
-        "bortelag": "Frankrike"
+        "home": "Norway",
+        "away": "France"
       },
       {
-        "hjemmelag": "Senegal",
-        "bortelag": "Irak"
+        "home": "Senegal",
+        "away": "Iraq"
       }
     ],
-    "Gruppe J": [
+    "Group J": [
       {
-        "hjemmelag": "Argentina",
-        "bortelag": "Algerie"
+        "home": "Argentina",
+        "away": "Algeria"
       },
       {
-        "hjemmelag": "Østerrike",
-        "bortelag": "Jordan"
+        "home": "Austria",
+        "away": "Jordan"
       },
       {
-        "hjemmelag": "Argentina",
-        "bortelag": "Østerrike"
+        "home": "Argentina",
+        "away": "Austria"
       },
       {
-        "hjemmelag": "Jordan",
-        "bortelag": "Algerie"
+        "home": "Jordan",
+        "away": "Algeria"
       },
       {
-        "hjemmelag": "Jordan",
-        "bortelag": "Argentina"
+        "home": "Jordan",
+        "away": "Argentina"
       },
       {
-        "hjemmelag": "Algerie",
-        "bortelag": "Østerrike"
+        "home": "Algeria",
+        "away": "Austria"
       }
     ],
-    "Gruppe K": [
+    "Group K": [
       {
-        "hjemmelag": "Portugal",
-        "bortelag": "DR Kongo"
+        "home": "Portugal",
+        "away": "DR Congo"
       },
       {
-        "hjemmelag": "Usbekistan",
-        "bortelag": "Colombia"
+        "home": "Uzbekistan",
+        "away": "Colombia"
       },
       {
-        "hjemmelag": "Portugal",
-        "bortelag": "Usbekistan"
+        "home": "Portugal",
+        "away": "Uzbekistan"
       },
       {
-        "hjemmelag": "Colombia",
-        "bortelag": "DR Kongo"
+        "home": "Colombia",
+        "away": "DR Congo"
       },
       {
-        "hjemmelag": "Colombia",
-        "bortelag": "Portugal"
+        "home": "Colombia",
+        "away": "Portugal"
       },
       {
-        "hjemmelag": "DR Kongo",
-        "bortelag": "Usbekistan"
+        "home": "DR Congo",
+        "away": "Uzbekistan"
       }
     ],
-    "Gruppe L": [
+    "Group L": [
       {
-        "hjemmelag": "England",
-        "bortelag": "Kroatia"
+        "home": "England",
+        "away": "Croatia"
       },
       {
-        "hjemmelag": "Ghana",
-        "bortelag": "Panama"
+        "home": "Ghana",
+        "away": "Panama"
       },
       {
-        "hjemmelag": "England",
-        "bortelag": "Ghana"
+        "home": "England",
+        "away": "Ghana"
       },
       {
-        "hjemmelag": "Panama",
-        "bortelag": "Kroatia"
+        "home": "Panama",
+        "away": "Croatia"
       },
       {
-        "hjemmelag": "Panama",
-        "bortelag": "England"
+        "home": "Panama",
+        "away": "England"
       },
       {
-        "hjemmelag": "Kroatia",
-        "bortelag": "Ghana"
+        "home": "Croatia",
+        "away": "Ghana"
       }
     ]
   }

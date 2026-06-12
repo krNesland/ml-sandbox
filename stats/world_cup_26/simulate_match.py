@@ -33,12 +33,12 @@ def simulate_match(
     Returns:
         (goals_a, goals_b, winner, match_log)
 
-    winner is the team name, "Uavgjort" for a draw (group stage),
+    winner is the team name, "Draw" for a draw (group stage),
     or the penalty winner if the match went to penalties.
     match_log contains a human-readable play-by-play.
     """
     if team_a not in TEAMS or team_b not in TEAMS:
-        raise ValueError(f"Ukjent lag: '{team_a}' eller '{team_b}'.")
+        raise ValueError(f"Unknown team: '{team_a}' or '{team_b}'.")
 
     strength_a = TEAMS[team_a]
     strength_b = TEAMS[team_b]
@@ -50,18 +50,18 @@ def simulate_match(
     goals_a = poisson_sample(lambda_a)
     goals_b = poisson_sample(lambda_b)
 
-    log = [f"Ordinær tid (90 min): {team_a} {goals_a} – {goals_b} {team_b}"]
+    log = [f"Regular time (90 min): {team_a} {goals_a} – {goals_b} {team_b}"]
 
     if goals_a == goals_b and is_knockout:
-        log.append("Ekstraomganger (30 min)...")
+        log.append("Extra time (30 min)...")
         goals_a += poisson_sample(lambda_a * (30 / 90))
         goals_b += poisson_sample(lambda_b * (30 / 90))
-        log.append(f"Etter ekstraomganger: {team_a} {goals_a} – {goals_b} {team_b}")
+        log.append(f"After extra time: {team_a} {goals_a} – {goals_b} {team_b}")
 
         if goals_a == goals_b:
-            log.append("Straffesparkkonkurranse...")
+            log.append("Penalty shootout...")
             penalty_winner = random.choice([team_a, team_b])
-            log.append(f"Vinner på straffer: {penalty_winner}!")
+            log.append(f"Winner on penalties: {penalty_winner}!")
             return goals_a, goals_b, penalty_winner, log
 
     if goals_a > goals_b:
@@ -69,6 +69,6 @@ def simulate_match(
     elif goals_b > goals_a:
         winner = team_b
     else:
-        winner = "Uavgjort"
+        winner = "Draw"
 
     return goals_a, goals_b, winner, log

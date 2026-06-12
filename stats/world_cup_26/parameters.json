@@ -1,17 +1,17 @@
 {
     "normal_goals_per_match": 2.4,
     "teams": {
-        "Spania": 210, "Argentina": 195, "Frankrike": 170, "England": 150, 
-        "Brasil": 145, "Colombia": 140, "Portugal": 135, "Ecuador": 125, 
-        "Nederland": 125, "Tyskland": 115, "Tyrkia": 105, "Mexico": 102, 
-        "Norge": 100, "Kroatia": 98, "Sveits": 97, "Belgia": 97, 
-        "Uruguay": 97, "Japan": 95, "Canada": 92, "Paraguay": 90, 
-        "Iran": 88, "USA": 85, "Østerrike": 85, "Australia": 82, 
-        "Sør-Korea": 80, "Skottland": 80, "Tsjekkia": 78, "Marokko": 78, 
-        "Egypt": 78, "Sverige": 75, "Elfenbenskysten": 75, "Senegal": 75, 
-        "Panama": 72, "Saudi-Arabia": 65, "Algerie": 65, "Kapp Verde": 60, 
-        "Sør-Afrika": 55, "Usbekistan": 55, "DR Kongo": 52, "New Zealand": 50, 
-        "Jordan": 50, "Bosnia-Hercegovina": 45, "Tunisia": 45, "Irak": 42, 
+        "Spain": 210, "Argentina": 195, "France": 170, "England": 150,
+        "Brazil": 145, "Colombia": 140, "Portugal": 135, "Ecuador": 125,
+        "Netherlands": 125, "Germany": 115, "Turkey": 105, "Mexico": 102,
+        "Norway": 100, "Croatia": 98, "Switzerland": 97, "Belgium": 97,
+        "Uruguay": 97, "Japan": 95, "Canada": 92, "Paraguay": 90,
+        "Iran": 88, "USA": 85, "Austria": 85, "Australia": 82,
+        "South Korea": 80, "Scotland": 80, "Czech Republic": 78, "Morocco": 78,
+        "Egypt": 78, "Sweden": 75, "Ivory Coast": 75, "Senegal": 75,
+        "Panama": 72, "Saudi Arabia": 65, "Algeria": 65, "Cape Verde": 60,
+        "South Africa": 55, "Uzbekistan": 55, "DR Congo": 52, "New Zealand": 50,
+        "Jordan": 50, "Bosnia-Hercegovina": 45, "Tunisia": 45, "Iraq": 42,
         "Haiti": 40, "Qatar": 35, "Curacao": 32, "Ghana": 30
     }
 }
