@@ -3,7 +3,7 @@ import math
 import random
 import urllib.request
 
-CURRENT_ROUND = 7
+CURRENT_ROUND = 9
 URL = f"https://fantasy.formula1.com/feeds/drivers/{CURRENT_ROUND}_en.json"
 SCHEDULE_URL = "https://fantasy.formula1.com/feeds/v2/schedule/raceday_en.json"
 

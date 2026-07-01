@@ -9,8 +9,8 @@ import plotly.graph_objects as go
 from simulate_match import simulate_match
 from tabulate import tabulate
 
-TEAM1 = "Qatar"
-TEAM2 = "Switzerland"
+TEAM1 = "Norway"
+TEAM2 = "Iraq"
 N = 10_000
 IS_KNOCKOUT = False
 
@@ -78,7 +78,8 @@ for (ga, gb), count in final_score_counts.items():
             z_color[gb][ga] = -pct
         else:
             z_color[gb][ga] = 0.0
-        text[gb][ga] = f"{pct:.1f}%"
+        odds = N / count
+        text[gb][ga] = f"{pct:.1f}%<br>{odds:.2f}"
 
 max_abs = max(
     abs(z_color[r][c])
